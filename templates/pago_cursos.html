@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pago del Curso</title>
+  <!-- Favicon -->
+  <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='img/EducacioIT.jpg') }}">
+  <!-- CSS -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/seleccion_cursos.css') }}">
+  <!-- Iconos de Bootstrap -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body data-bs-spy="scroll" data-bs-target="#navbarResponsive">
+  <div class="fondo-gris">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-md navbar-light fixed-top bg-white shadow-sm">
+      <div class="container">
+        <a class="navbar-brand" href="{{ url_for('index') }}">
+          <img src="{{ url_for('static', filename='img/EducacioIT.jpg') }}" alt="Logo Educación IT" height="60">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item"><a class="nav-link" href="{{ url_for('index') }}">Inicio</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ url_for('nosotros') }}">¿Quiénes Somos?</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ url_for('profesores') }}">Profesores</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ url_for('cursos') }}">Cursos</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ url_for('contacto') }}">Contacto</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Contenedor principal -->
+    <div class="container my-5">
+      <div class="row">
+        <div class="col-md-8 mx-auto">
+          <!-- Info del alumno -->
+          <div class="p-3 bg-light rounded shadow-sm mb-4">
+            <h4>Datos del Inscripto</h4>
+            <p><strong>Nombre:</strong> <span id="nombre"></span></p>
+            <p><strong>Apellido:</strong> <span id="apellido"></span></p>
+            <p><strong>Email:</strong> <span id="email"></span></p>
+            <p><strong>DNI:</strong> <span id="dni"></span></p>
+            <p><strong>Teléfono:</strong> <span id="telefono"></span></p>
+            <p><strong>Curso:</strong> <span id="curso"></span></p>
+            <p><strong>Precio:</strong> $<span id="precio"></span></p>
+          </div>
+
+          <!-- Formulario de pago -->
+          <div class="p-3 bg-light rounded shadow-sm">
+            <h4>Formulario de Pago</h4>
+            <form id="form-pago" action="{{ url_for('pago') }}" method="post">
+              <!-- Hidden inputs -->
+              <input type="hidden" name="nombre" id="input-nombre">
+              <input type="hidden" name="apellido" id="input-apellido">
+              <input type="hidden" name="email" id="input-email">
+              <input type="hidden" name="dni" id="input-dni">
+              <input type="hidden" name="telefono" id="input-telefono">
+              <input type="hidden" name="curso" id="input-curso">
+              <input type="hidden" name="precio" id="input-precio">
+
+              <!-- Método de pago -->
+              <div class="mb-3">
+                <label for="metodo-pago" class="form-label">Método de pago</label>
+                <select class="form-select" name="metodo-pago"  id="metodo-pago" onchange="mostrarCamposPago()">
+                  <option value="tarjeta">Tarjeta</option>
+                  <option value="paypal">PayPal</option>
+                  <option value="transferencia">Transferencia</option>
+                </select>
+              </div>
+
+              <!-- Campos de tarjeta -->
+              <div id="campos-tarjeta" style="display:none;">
+                <div class="mb-3">
+                  <label for="nombre-tarjeta" class="form-label">Nombre en la tarjeta</label>
+                  <input type="text" class="form-control" id="nombre-tarjeta" required>
+                </div>
+                <div class="mb-3">
+                  <label for="tarjeta" class="form-label">Número de tarjeta</label>
+                  <input type="text" class="form-control" id="tarjeta" required>
+                </div>
+                <div class="mb-3">
+                  <label for="vencimiento" class="form-label">Fecha de vencimiento</label>
+                  <input type="text" class="form-control" id="vencimiento" placeholder="MM/AA" required>
+                </div>
+                <div class="mb-3">
+                  <label for="cvv" class="form-label">CVV</label>
+                  <input type="text" class="form-control" id="cvv" required>
+                </div>
+              </div>
+
+              <!-- Dirección -->
+              <div class="mb-3">
+                <label for="direccion" class="form-label">Dirección de facturación</label>
+                <input type="text" class="form-control" id="direccion" name="direccion" required>
+              </div>
+
+              <button type="submit" class="btn btn-success">Pagar</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const nombresCursos = {
+      "python": "Python", "java": "Java", ".net": ".Net", "javascript": "JavaScript",
+      "ia": "Manejo de IA", "chatgpt": "Chat GPT", "ia-visual": "IA para Contenido Visual", "ia-avanzada": "IA avanzada para proyectos",
+      "community-manager": "Community Manager", "seo": "SEO", "publicidad-redes": "Publicidad en Redes Sociales", "marketing-contenido": "Marketing de Contenido",
+      "intro-uiux": "Introducción a UI/UX", "ui-animations": "UI Animations / Microinteracciones", "herramientas-diseno": "Herramientas de Diseño Profesionales/Avanzado", "ux-productos": "UX para productos digitales",
+      "ciencia-datos": "Ciencia de Datos", "introduccion-bigdata": "Introducción a Big Data", "ia-bigdata": "IA y Big Data", "analisis-datos": "Análisis de Datos"
+    };
+
+    const cursoId = params.get("curso");
+    const precioCurso = params.get("precio") || "0";
+
+    document.getElementById('nombre').textContent = params.get('nombre') || '';
+    document.getElementById('apellido').textContent = params.get('apellido') || '';
+    document.getElementById('email').textContent = params.get('email') || '';
+    document.getElementById('dni').textContent = params.get('dni') || '';
+    document.getElementById('telefono').textContent = params.get('telefono') || '';
+    document.getElementById("curso").textContent = nombresCursos[cursoId] || "No especificado";
+    document.getElementById("precio").textContent = parseInt(precioCurso).toLocaleString();
+
+    document.getElementById('input-nombre').value = params.get('nombre') || '';
+    document.getElementById('input-apellido').value = params.get('apellido') || '';
+    document.getElementById('input-email').value = params.get('email') || '';
+    document.getElementById('input-dni').value = params.get('dni') || '';
+    document.getElementById('input-telefono').value = params.get('telefono') || '';
+    document.getElementById('input-curso').value = cursoId || '';
+    document.getElementById('input-precio').value = precioCurso || '0';
+
+    function mostrarCamposPago() {
+      const metodo = document.getElementById('metodo-pago').value;
+      const camposTarjeta = document.getElementById('campos-tarjeta');
+      if (metodo === 'tarjeta') {
+        camposTarjeta.style.display = 'block';
+        document.getElementById('nombre-tarjeta').required = true;
+        document.getElementById('tarjeta').required = true;
+        document.getElementById('vencimiento').required = true;
+        document.getElementById('cvv').required = true;
+      } else {
+        camposTarjeta.style.display = 'none';
+        document.getElementById('nombre-tarjeta').required = false;
+        document.getElementById('tarjeta').required = false;
+        document.getElementById('vencimiento').required = false;
+        document.getElementById('cvv').required = false;
+      }
+    }
+
+    mostrarCamposPago();
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

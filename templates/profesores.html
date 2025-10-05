@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- Título -->
+  <title>Profesores</title>
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='Imágenes/EducacioIT.jpg') }}">
+  
+  <!-- CSS -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='profesores.css') }}">
+  
+  <!-- Iconos de Bootstrap -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500&family=Rubik+Dirt&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body data-bs-spy="scroll" data-bs-target="#navbarResponsive">
+
+  <!-- Inicio Section -->
+  <div id="home">
+    
+    <!-- Navegación -->
+    <nav class="navbar navbar-expand-md navbar-light fixed-top bg-white shadow-sm">
+      <div class="container">
+        <a class="navbar-brand" href="{{ url_for('index') }}">
+          <img src="{{ url_for('static', filename='Imágenes/EducacioIT.jpg') }}" alt="Logo Educación IT" height="60">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Menú">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('index') }}">Inicio</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('nosotros') }}">¿Quiénes Somos?</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('profesores') }}">Profesores</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('cursos') }}">Cursos</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('contacto') }}">Contacto</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <!-- End Navegación -->
+
+ <!-- Sección Profesores -->
+<section id="profesores" class="py-5">
+  <div class="container">
+    <!-- Subtítulo introductorio -->
+    <p class="text-center text-muted fs-5 mb-4">
+      Conoce a nuestro equipo de profesionales altamente capacitados que te acompañarán en tu aprendizaje.
+    </p>
+    <div class="text-center">
+      <h2 class="mb-5 mt-3 contenedor_titulo">Nuestros Profesores</h2>
+    </div>
+
+    <div class="row g-4">
+      <!-- Profesor 1 -->
+      <div class="col-md-4">
+        <div class="card h-100 fade-in" style="animation-delay: 0.2s;">
+          <img src="{{ url_for('static', filename='Profesores/JuanPerez.jpg') }}" class="card-img-top" alt="Juan Pérez">
+          <div class="card-body text-center">
+            <h5 class="card-title">Juan Pérez</h5>
+            <p class="card-text">Especialista en Inteligencia Artificial y Big Data. Apasionado por Machine Learning y análisis de datos.</p>
+            <!-- Redes -->
+            <div class="social-icons mt-3">
+              <a href="#" class="me-3"><i class="bi bi-linkedin"></i></a>
+              <a href="#"><i class="bi bi-instagram"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Profesor 2 -->
+      <div class="col-md-4">
+        <div class="card h-100 fade-in" style="animation-delay: 0.4s;">
+          <img src="{{ url_for('static', filename='Profesores/María Lopez.jpg') }}" class="card-img-top" alt="María López">
+          <div class="card-body text-center">
+            <h5 class="card-title">María López</h5>
+            <p class="card-text">Experta en Inteligencia Artificial y Desarrollo de Software. Focalizada en IA aplicada y Python avanzado.</p>
+            <div class="social-icons mt-3">
+              <a href="#" class="me-3"><i class="bi bi-linkedin"></i></a>
+              <a href="#"><i class="bi bi-instagram"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Profesor 3 -->
+      <div class="col-md-4">
+        <div class="card h-100 fade-in" style="animation-delay: 0.6s;">
+          <img src="{{ url_for('static', filename='Profesores/Carlos Gómez.jpg') }}" class="card-img-top" alt="Carlos Gómez">
+          <div class="card-body text-center">
+            <h5 class="card-title">Carlos Gómez</h5>
+            <p class="card-text">Desarrollador full stack y diseñador UI/UX. Crea experiencias digitales intuitivas y funcionales.</p>
+            <div class="social-icons mt-3">
+              <a href="#" class="me-3"><i class="bi bi-linkedin"></i></a>
+              <a href="#"><i class="bi bi-instagram"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Profesor 4 -->
+      <div class="col-md-4">
+        <div class="card h-100 fade-in" style="animation-delay: 0.8s;">
+          <img src="{{ url_for('static', filename='Profesores/Laura Martinez.jpg') }}" class="card-img-top" alt="Laura Martínez">
+          <div class="card-body text-center">
+            <h5 class="card-title">Laura Martínez</h5>
+            <p class="card-text">Especialista en Marketing Digital y Diseño UI/UX. Combina creatividad y estrategia digital.</p>
+            <div class="social-icons mt-3">
+              <a href="#" class="me-3"><i class="bi bi-linkedin"></i></a>
+              <a href="#"><i class="bi bi-instagram"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Profesor 5 -->
+      <div class="col-md-4">
+        <div class="card h-100 fade-in" style="animation-delay: 1s;">
+          <img src="{{ url_for('static', filename='Profesores/Andrés Torres.jpg') }}" class="card-img-top" alt="Andrés Torres">
+          <div class="card-body text-center">
+            <h5 class="card-title">Andrés Torres</h5>
+            <p class="card-text">Experto en Marketing Digital y Big Data. Optimiza campañas y análisis de datos.</p>
+            <div class="social-icons mt-3">
+              <a href="#" class="me-3"><i class="bi bi-linkedin"></i></a>
+              <a href="#"><i class="bi bi-instagram"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Profesor 6 -->
+      <div class="col-md-4">
+        <div class="card h-100 fade-in" style="animation-delay: 1.2s;">
+          <img src="{{ url_for('static', filename='Profesores/Sofia Ramirez.jpg') }}" class="card-img-top" alt="Sofía Ramírez">
+          <div class="card-body text-center">
+            <h5 class="card-title">Sofía Ramírez</h5>
+            <p class="card-text">Especialista en Big Data y Desarrollo de Software. Experiencia en bases de datos y programación.</p>
+            <div class="social-icons mt-3">
+              <a href="#" class="me-3"><i class="bi bi-linkedin"></i></a>
+              <a href="#"><i class="bi bi-instagram"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Profesor 7 -->
+      <div class="col-md-4">
+        <div class="card h-100 fade-in" style="animation-delay: 1.4s;">
+          <img src="{{ url_for('static', filename='Profesores/Marta Fernandez.jpg') }}" class="card-img-top" alt="Marta Fernández">
+          <div class="card-body text-center">
+            <h5 class="card-title">Marta Fernández</h5>
+            <p class="card-text">Diseñadora UI/UX y experta en Inteligencia Artificial. Crea interfaces inteligentes y atractivas.</p>
+            <div class="social-icons mt-3">
+              <a href="#" class="me-3"><i class="bi bi-linkedin"></i></a>
+              <a href="#"><i class="bi bi-instagram"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+  </div> <!-- End Home -->
+
+
+  <!-- Footer -->
+<footer class="bg-white text-dark pt-5">
+  <div class="container">
+
+    <!-- Logo y Redes Sociales -->
+    <div class="row align-items-center mb-4">
+      <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+        <img src="{{ url_for('static', filename='Imágenes/EducacioIT.jpg') }}" alt="EducaciónIT" style="height: 60px;">
+      </div>
+      <div class="col-md-6 text-center text-md-end">
+        <a href="https://www.instagram.com/" target="_blank" class="text-dark me-3" style="text-decoration: none;">
+          <i class="bi bi-instagram" style="font-size: 1.5rem;"></i>
+        </a>
+        <a href="https://wa.me/549XXXXXXXXXX" target="_blank" class="text-dark me-3" style="text-decoration: none;">
+          <i class="bi bi-whatsapp" style="font-size: 1.5rem;"></i>
+        </a>
+        <a href="tel:+549XXXXXXXXXX" class="text-dark me-3" style="text-decoration: none;">
+          <i class="bi bi-telephone-fill" style="font-size: 1.5rem;"></i>
+        </a>
+        <a href="mailto:contacto@educacionit.com.ar" class="text-dark" style="text-decoration: none;">
+          <i class="bi bi-envelope-fill" style="font-size: 1.5rem;"></i>
+        </a>
+      </div>
+    </div>
+
+    <!-- ¿Te podemos ayudar? -->
+    <div class="row mb-4">
+      <div class="col text-center">
+        <h5 class="fw-bold" style="font-family: 'Quicksand', sans-serif;">¿Te podemos ayudar?</h5>
+        <p class="mb-0" style="font-size: 1.2rem;">
+          <a href="tel:+549XXXXXXXXXX" class="text-dark" style="text-decoration: none;">📞 +54 9 XXXX XXXX</a>
+        </p>
+      </div>
+    </div>
+
+    <!-- Derechos reservados -->
+    <div class="row">
+      <div class="col text-center">
+        <p class="mb-0" style="font-family: 'Quicksand', sans-serif;">
+          &copy; 2025 EducaciónIT. Todos los derechos reservados.
+        </p>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+
+
+
+  <!-- Bootstrap JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,98 @@
+/* ---- Estilos generales ---- */
+body {
+  font-family: 'Quicksand', sans-serif; /* Fuente de Google Fonts que ya cargaste */
+  background-color: #f8f9fa; /* Gris claro */
+  color: #333;
+}
+
+/* ---- Sección de Contacto ---- */
+#contacto {
+  background-color: #f8f9fa; /* gris claro para diferenciar */
+  padding-top: 140px;
+}
+
+#contacto h2 {
+  font-weight: 700;
+  color: #007bff;
+  margin-bottom: 40px;
+}
+
+/* Tarjeta del formulario */
+#contacto form {
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+/* Inputs y selects */
+#contacto .form-control,
+#contacto .form-select {
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+#contacto .form-control:focus,
+#contacto .form-select:focus {
+  border-color: #0d6efd; /* color primario Bootstrap */
+  box-shadow: 0 0 0 0.2rem rgba(13,110,253,0.25);
+}
+
+/* Textarea */
+#contacto textarea {
+  resize: vertical; /* para que solo se pueda redimensionar verticalmente */
+}
+
+/* Botón */
+#contacto button.btn {
+  background-color: #0d6efd; /* Azul Bootstrap */
+  border: none;
+  font-weight: 600;
+  border-radius: 8px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+#contacto button.btn:hover {
+  background-color: #0b5ed7; /* Azul un poco más oscuro */
+  transform: scale(1.05);
+}
+
+/* deja espacio arriba para que no tape el navbar */
+html {
+  scroll-padding-top: 90px; /* para los links ancla */
+}
+
+body {
+  padding-top: 90px; /* para el contenido normal */
+}
+
+/* si querés sólo mover la sección de contacto */
+#contacto {
+  padding-top: calc(3rem + 70px); /* 3rem de py-5 + altura navbar */
+}
+
+/* Botón WhatsApp flotante */
+.whatsapp-float {
+  position: fixed;
+  width: 60px;
+  height: 60px;
+  bottom: 20px; /* distancia desde abajo */
+  right: 20px;  /* distancia desde la derecha */
+  background-color: #25d366; /* color verde WhatsApp */
+  color: #fff;
+  border-radius: 50%;
+  text-align: center;
+  font-size: 30px;
+  box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s ease;
+}
+
+.whatsapp-float:hover {
+  transform: scale(1.1);
+  color: #fff; /* mantiene blanco el icono */
+  text-decoration: none;
+}
