@@ -14,6 +14,7 @@
   <!-- Bootstrap -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
+
 <body data-bs-spy="scroll" data-bs-target="#navbarResponsive">
   <div class="fondo-gris">
     <!-- Navbar -->
@@ -32,6 +33,11 @@
             <li class="nav-item"><a class="nav-link" href="{{ url_for('profesores') }}">Profesores</a></li>
             <li class="nav-item"><a class="nav-link" href="{{ url_for('cursos') }}">Cursos</a></li>
             <li class="nav-item"><a class="nav-link" href="{{ url_for('contacto') }}">Contacto</a></li>
+            <li class="nav-item">
+              <a class="campus-btn" href="{{ url_for('campus') }}">
+                Campus Virtual
+              </a>
+            </li>
           </ul>
         </div>
       </div>
@@ -44,11 +50,12 @@
           <!-- Info del alumno -->
           <div class="p-3 bg-light rounded shadow-sm mb-4">
             <h4>Datos del Inscripto</h4>
-            <p><strong>Nombre:</strong> <span id="nombre"></span></p>
-            <p><strong>Apellido:</strong> <span id="apellido"></span></p>
-            <p><strong>Email:</strong> <span id="email"></span></p>
-            <p><strong>DNI:</strong> <span id="dni"></span></p>
-            <p><strong>Teléfono:</strong> <span id="telefono"></span></p>
+            <p><strong>Nombre:</strong> <span id="nombre">{{ nombre }}</span></p>
+            <p><strong>Apellido:</strong> <span id="apellido">{{ apellido }}</span></p>
+            <p><strong>Fecha de Nacimiento:</strong> <span id="fecha_nacimiento">{{ fecha_nacimiento }}</span></p>
+            <p><strong>Email:</strong> <span id="email">{{ email }}</span></p>
+            <p><strong>DNI:</strong> <span id="dni">{{ dni }}</span></p>
+            <p><strong>Teléfono:</strong> <span id="telefono">{{ telefono }}</span></p>
             <p><strong>Curso:</strong> <span id="curso"></span></p>
             <p><strong>Precio:</strong> $<span id="precio"></span></p>
           </div>
@@ -57,22 +64,22 @@
           <div class="p-3 bg-light rounded shadow-sm">
             <h4>Formulario de Pago</h4>
             <form id="form-pago" action="{{ url_for('pago') }}" method="post">
-              <!-- Hidden inputs -->
-              <input type="hidden" name="nombre" id="input-nombre">
-              <input type="hidden" name="apellido" id="input-apellido">
-              <input type="hidden" name="email" id="input-email">
-              <input type="hidden" name="dni" id="input-dni">
-              <input type="hidden" name="telefono" id="input-telefono">
-              <input type="hidden" name="curso" id="input-curso">
-              <input type="hidden" name="precio" id="input-precio">
+              <!-- Hidden inputs para enviar datos al servidor -->
+              <input type="hidden" name="nombre" id="input-nombre" value="{{ nombre }}">
+              <input type="hidden" name="apellido" id="input-apellido" value="{{ apellido }}">
+              <input type="hidden" name="fecha_nacimiento" id="fecha-nacimiento" value="{{ fecha_nacimiento }}">
+              <input type="hidden" name="email" id="input-email" value="{{ email }}">
+              <input type="hidden" name="dni" id="input-dni" value="{{ dni }}">
+              <input type="hidden" name="telefono" id="input-telefono" value="{{ telefono }}">
+              <input type="hidden" name="curso" id="input-curso" value="{{ curso_id }}">
+              <input type="hidden" name="precio" id="input-precio" value="{{ precio_curso }}">
 
               <!-- Método de pago -->
               <div class="mb-3">
                 <label for="metodo-pago" class="form-label">Método de pago</label>
-                <select class="form-select" name="metodo-pago"  id="metodo-pago" onchange="mostrarCamposPago()">
-                  <option value="tarjeta">Tarjeta</option>
+                <select class="form-select" id="metodo-pago" onchange="mostrarCamposPago()">
+                  <option value="tarjeta">Tarjeta de débito o crédito</option>
                   <option value="paypal">PayPal</option>
-                  <option value="transferencia">Transferencia</option>
                 </select>
               </div>
 
@@ -80,29 +87,29 @@
               <div id="campos-tarjeta" style="display:none;">
                 <div class="mb-3">
                   <label for="nombre-tarjeta" class="form-label">Nombre en la tarjeta</label>
-                  <input type="text" class="form-control" id="nombre-tarjeta" required>
+                  <input type="text" class="form-control" id="nombre-tarjeta" name="nombre_tarjeta" required>
                 </div>
                 <div class="mb-3">
                   <label for="tarjeta" class="form-label">Número de tarjeta</label>
-                  <input type="text" class="form-control" id="tarjeta" required>
+                  <input type="text" class="form-control" id="tarjeta" name="numero_tarjeta" required>
                 </div>
                 <div class="mb-3">
                   <label for="vencimiento" class="form-label">Fecha de vencimiento</label>
-                  <input type="text" class="form-control" id="vencimiento" placeholder="MM/AA" required>
+                  <input type="text" class="form-control" id="vencimiento" name="vencimiento" placeholder="MM/AA" required>
                 </div>
                 <div class="mb-3">
                   <label for="cvv" class="form-label">CVV</label>
-                  <input type="text" class="form-control" id="cvv" required>
+                  <input type="text" class="form-control" id="cvv" name="cvv" required>
                 </div>
               </div>
 
-              <!-- Dirección -->
+              <!-- Dirección de facturación -->
               <div class="mb-3">
                 <label for="direccion" class="form-label">Dirección de facturación</label>
                 <input type="text" class="form-control" id="direccion" name="direccion" required>
               </div>
 
-              <button type="submit" class="btn btn-success">Pagar</button>
+              <button type="submit" id="btn-pagar" class="btn btn-success">Pagar</button>
             </form>
           </div>
         </div>
@@ -110,57 +117,202 @@
     </div>
   </div>
 
+  <!-- Modal Login PayPal -->
+  <div class="modal fade" id="paypalLoginModal" tabindex="-1" aria-labelledby="paypalLoginModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content overflow-hidden">
+        <div class="text-center p-3 bg-primary text-white">
+          <img src="https://www.paypalobjects.com/webstatic/mktg/logo/pp_cc_mark_111x69.jpg" alt="PayPal" height="40">
+          <h5 class="mt-2 mb-0">Iniciar sesión en PayPal</h5>
+        </div>
+        <div class="modal-body text-center p-4">
+          <form id="paypalLoginForm">
+            <div class="mb-3 text-start">
+              <label for="paypalEmail" class="form-label">Correo electrónico</label>
+              <input type="email" class="form-control" id="paypalEmail" placeholder="usuario@correo.com" required>
+            </div>
+            <div class="mb-3 text-start">
+              <label for="paypalPassword" class="form-label">Contraseña</label>
+              <input type="password" class="form-control" id="paypalPassword" placeholder="********" required>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Iniciar sesión</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal PayPal simulación -->
+  <div class="modal fade" id="paypalModal" tabindex="-1" aria-labelledby="paypalModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content overflow-hidden">
+        <div class="text-center p-3 bg-primary text-white">
+          <img src="https://www.paypalobjects.com/webstatic/mktg/logo/pp_cc_mark_111x69.jpg" alt="PayPal" height="40">
+          <h5 class="mt-2 mb-0">PayPal Checkout</h5>
+        </div>
+        <div class="modal-body text-center p-4">
+
+           <!-- Ruedita de carga -->
+        <div class="spinner-border text-primary mb-3" role="status">
+        </div>
+
+          <p>Procesando el pago con tu cuenta PayPal...</p>
+          <button type="button" class="btn btn-primary mt-3" id="btnConfirmarPaypal">Confirmar pago</button>
+          <button type="button" class="btn btn-secondary mt-2" data-bs-dismiss="modal">Cancelar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de pago exitoso -->
+  <div id="modal-exito" class="modal-backdrop" style="display:none;">
+    <div class="modal-content-custom">
+      <h3>¡Pago del curso exitoso!</h3>
+      <p>Bienvenid@ a nuestro Campus! Ya puedes acceder.</p>
+      <button id="btn-registrarse" class="btn btn-primary">Acceder al Campus</button>
+    </div>
+  </div>
+
   <!-- Scripts -->
   <script>
+    // Mostrar datos del alumno
     const params = new URLSearchParams(window.location.search);
-    const nombresCursos = {
-      "python": "Python", "java": "Java", ".net": ".Net", "javascript": "JavaScript",
-      "ia": "Manejo de IA", "chatgpt": "Chat GPT", "ia-visual": "IA para Contenido Visual", "ia-avanzada": "IA avanzada para proyectos",
-      "community-manager": "Community Manager", "seo": "SEO", "publicidad-redes": "Publicidad en Redes Sociales", "marketing-contenido": "Marketing de Contenido",
-      "intro-uiux": "Introducción a UI/UX", "ui-animations": "UI Animations / Microinteracciones", "herramientas-diseno": "Herramientas de Diseño Profesionales/Avanzado", "ux-productos": "UX para productos digitales",
-      "ciencia-datos": "Ciencia de Datos", "introduccion-bigdata": "Introducción a Big Data", "ia-bigdata": "IA y Big Data", "analisis-datos": "Análisis de Datos"
-    };
-
-    const cursoId = params.get("curso");
-    const precioCurso = params.get("precio") || "0";
-
     document.getElementById('nombre').textContent = params.get('nombre') || '';
     document.getElementById('apellido').textContent = params.get('apellido') || '';
+    document.getElementById('fecha_nacimiento').textContent = params.get('fecha_nacimiento') || '';
     document.getElementById('email').textContent = params.get('email') || '';
     document.getElementById('dni').textContent = params.get('dni') || '';
     document.getElementById('telefono').textContent = params.get('telefono') || '';
+    // Mostrar el nombre del curso y precio
+    const cursoId = "{{ curso_id }}";
     document.getElementById("curso").textContent = nombresCursos[cursoId] || "No especificado";
+    const precioCurso = "{{ precio_curso }}";
     document.getElementById("precio").textContent = parseInt(precioCurso).toLocaleString();
+    // Constante con los nombres de cursos
+    const nombresCursos = {
+      "python": "Python",
+      "java": "Java",
+      ".net": ".Net",
+      "javascript": "JavaScript",
+      "ia": "Manejo de IA",
+      "chatgpt": "Chat GPT",
+      "ia-visual": "IA para Contenido Visual",
+      "ia-avanzada": "IA avanzada para proyectos",
+      "community-manager": "Community Manager",
+      "seo": "SEO",
+      "publicidad-redes": "Publicidad en Redes Sociales",
+      "marketing-contenido": "Marketing de Contenido",
+      "intro-uiux": "Introducción a UI/UX",
+      "ui-animations": "UI Animations / Microinteracciones",
+      "herramientas-diseno": "Herramientas de Diseño Profesionales/Avanzado",
+      "ux-productos": "UX para productos digitales",
+      "ciencia-datos": "Ciencia de Datos",
+      "introduccion-bigdata": "Introducción a Big Data",
+      "ia-bigdata": "IA y Big Data",
+      "analisis-datos": "Análisis de Datos"
+    };
 
-    document.getElementById('input-nombre').value = params.get('nombre') || '';
-    document.getElementById('input-apellido').value = params.get('apellido') || '';
-    document.getElementById('input-email').value = params.get('email') || '';
-    document.getElementById('input-dni').value = params.get('dni') || '';
-    document.getElementById('input-telefono').value = params.get('telefono') || '';
-    document.getElementById('input-curso').value = cursoId || '';
-    document.getElementById('input-precio').value = precioCurso || '0';
+    
 
+    // Mostrar u ocultar campos de tarjeta
     function mostrarCamposPago() {
       const metodo = document.getElementById('metodo-pago').value;
       const camposTarjeta = document.getElementById('campos-tarjeta');
+      const botonPagar = document.getElementById('btn-pagar');
+
       if (metodo === 'tarjeta') {
         camposTarjeta.style.display = 'block';
+         botonPagar.style.display = 'inline-block';
         document.getElementById('nombre-tarjeta').required = true;
         document.getElementById('tarjeta').required = true;
         document.getElementById('vencimiento').required = true;
         document.getElementById('cvv').required = true;
       } else {
         camposTarjeta.style.display = 'none';
-        document.getElementById('nombre-tarjeta').required = false;
-        document.getElementById('tarjeta').required = false;
-        document.getElementById('vencimiento').required = false;
-        document.getElementById('cvv').required = false;
+        botonPagar.style.display = 'none';
+
+        const paypalLoginModal = new bootstrap.Modal(document.getElementById('paypalLoginModal'));
+        paypalLoginModal.show();
+
+        document.getElementById('paypalLoginForm').onsubmit = function(e) {
+          e.preventDefault();
+          paypalLoginModal.hide();
+          const paypalModal = new bootstrap.Modal(document.getElementById('paypalModal'));
+          paypalModal.show();
+
+          document.getElementById('btnConfirmarPaypal').onclick = function() {
+            paypalModal.hide();
+            document.getElementById('modal-exito').style.display = 'flex';
+            document.getElementById('btn-registrarse').onclick = function() {
+              window.location.href = 'Campus/inicio_campus.html';
+            };
+          };
+        };
       }
     }
 
-    mostrarCamposPago();
+    // Pago con tarjeta
+    document.getElementById('form-pago').addEventListener('submit', function(e) {
+      e.preventDefault();
+      document.getElementById('modal-exito').style.display = 'flex';
+      document.getElementById('btn-registrarse').onclick = function() {
+        window.location.href = "{{ url_for('campus') }}";
+      };
+    });
+
+    // Al cargar la página, asegurar consistencia visual
+    window.onload = function() {
+      const metodoSelect = document.getElementById('metodo-pago');
+      metodoSelect.value = 'tarjeta'; // Valor inicial (tarjeta)
+      mostrarCamposPago();
+    };
   </script>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Footer -->
+  <footer class="bg-white text-dark pt-5">
+    <div class="container">
+      <!-- Logo y Redes Sociales -->
+      <div class="row align-items-center mb-4">
+        <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+          <img src="{{ url_for('static', filename='img/EducacioIT.jpg') }}" alt="EducaciónIT" style="height: 60px;">
+        </div>
+        <div class="col-md-6 text-center text-md-end">
+          <a href="https://www.instagram.com/" target="_blank" class="text-dark me-3" style="text-decoration: none;">
+            <i class="bi bi-instagram" style="font-size: 1.5rem;"></i>
+          </a>
+          <a href="https://wa.me/549XXXXXXXXXX" target="_blank" class="text-dark me-3" style="text-decoration: none;">
+            <i class="bi bi-whatsapp" style="font-size: 1.5rem;"></i>
+          </a>
+          <a href="tel:+549XXXXXXXXXX" class="text-dark me-3" style="text-decoration: none;">
+            <i class="bi bi-telephone-fill" style="font-size: 1.5rem;"></i>
+          </a>
+          <a href="mailto:contacto@educacionit.com.ar" class="text-dark" style="text-decoration: none;">
+            <i class="bi bi-envelope-fill" style="font-size: 1.5rem;"></i>
+          </a>
+        </div>
+      </div>
+
+      <!-- ¿Te podemos ayudar? -->
+      <div class="row mb-4">
+        <div class="col text-center">
+          <h5 class="fw-bold" style="font-family: 'Quicksand', sans-serif;">¿Te podemos ayudar?</h5>
+          <p class="mb-0" style="font-size: 1.2rem;">
+            <a href="tel:+549XXXXXXXXXX" class="text-dark" style="text-decoration: none;">📞 +54 9 XXXX XXXX</a>
+          </p>
+        </div>
+      </div>
+
+      <!-- Derechos reservados -->
+      <div class="row">
+        <div class="col text-center">
+          <p class="mb-0" style="font-family: 'Quicksand', sans-serif;">
+            &copy; 2025 EducaciónIT. Todos los derechos reservados.
+          </p>
+        </div>
+      </div>
+    </div>
+  </footer>
 </body>
 </html>
