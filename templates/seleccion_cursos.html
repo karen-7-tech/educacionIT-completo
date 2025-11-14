@@ -28,13 +28,13 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ms-auto">
-            <li class="nav-item"><a class="nav-link" href="#">Inicio</a></li>
-            <li class="nav-item"><a class="nav-link" href="#">¿Quiénes Somos?</a></li>
-            <li class="nav-item"><a class="nav-link" href="#">Profesores</a></li>
-            <li class="nav-item"><a class="nav-link" href="#">Cursos</a></li>
-            <li class="nav-item"><a class="nav-link" href="#">Contacto</a></li>
+             <li class="nav-item"><a class="nav-link" href="{{ url_for('index') }}">Inicio</a></li>
+          <li class="nav-item"><a class="nav-link" href="{{ url_for('nosotros') }}">¿Quiénes Somos?</a></li>
+          <li class="nav-item"><a class="nav-link" href="{{ url_for('profesores') }}">Profesores</a></li>
+          <li class="nav-item"><a class="nav-link" href="{{ url_for('cursos') }}">Cursos</a></li>
+          <li class="nav-item"><a class="nav-link" href="{{ url_for('contacto') }}">Contacto</a></li>
             <li class="nav-item">
-              <a class="campus-btn" href="#">
+              <a class="campus-btn" href="{{ url_for('inicio_campus') }}">
                 Campus Virtual
               </a>
             </li>
@@ -46,10 +46,73 @@
 
     <!-- CONTENIDO PRINCIPAL -->
 <div class="container my-5">
-  <div class="row">
-    <div class="col-md-6">
-      <!-- Información del curso -->
-      <div class="info-izquierda info-curso p-3 bg-light rounded shadow-sm mb-4">
+   <div class="row g-4 align-items-start">
+    <div class="col-12 col-md-6">
+     
+      <!-- Estado del usuario -->
+<div id="estado-usuario" data-inscripto="{% if usuarioYaInscripto %}true{% else %}false{% endif %}"></div>
+
+<!-- Formulario de inscripción -->
+     <div id="form-inscripcion" class="p-3 bg-light rounded shadow-sm mb-3">
+      <h4>Formulario de Inscripción</h4>
+      <form action="{{ url_for('inscribirse') }}" method="post" id="form-inscripcion-form">
+        <input type="hidden" name="curso" id="input-curso">
+        <input type="hidden" name="precio" id="input-precio">
+        
+        <!-- Nombre -->
+        <div class="mb-3">
+          <label for="nombre" class="form-label">Nombre</label>
+          <input type="text" class="form-control" name="nombre" id="nombre" required>
+        </div>
+
+        <!-- Apellido -->
+        <div class="mb-3">
+          <label for="apellido" class="form-label">Apellido</label>
+          <input type="text" class="form-control" name="apellido" id="apellido" required>
+        </div>
+
+        <!-- Fecha de nacimiento -->
+        <div class="mb-3">
+          <label for="fecha_nacimiento" class="form-label">Fecha de Nacimiento</label>
+          <input type="date" class="form-control" name="fecha_nacimiento" id="fecha_nacimiento" required>
+        </div>
+
+        <!-- Email -->
+        <div class="mb-3">
+          <label for="email" class="form-label">Email</label>
+          <input type="email" class="form-control" name="email" id="email" required>
+        </div>
+
+        <!-- DNI -->
+        <div class="mb-3">
+          <label for="dni" class="form-label">DNI</label>
+          <input type="text" class="form-control" name="dni" id="dni" required>
+        </div>
+
+        <!-- Teléfono -->
+        <div class="mb-3">
+          <label for="telefono" class="form-label">Teléfono</label>
+          <input type="tel" class="form-control" name="telefono" id="telefono" required>
+        </div>
+
+        <!-- Contraseña-->
+        <div class="mb-3">
+          <label for="password" class="form-label">Contraseña</label>
+          <input type="password" class="form-control" name="password" id="password" required>
+       
+        </div>
+      </form>
+    </div>
+
+<!-- Botón fuera del formulario -->
+    <div id="boton-siguiente-container" class="text-center mb-4">
+      <button id="btnSiguiente" type="button" class="btn btn-primary">Ir a Pagar</button>
+     </div>
+    </div>
+    <div class="col-12 col-md-6 d-flex flex-column">
+ <!-- Información del curso -->
+      <div class="info-izquierda info-curso p-3 bg-light rounded shadow-sm mb-3 flex-fill">
+            
         <h4>Información</h4>
         <p><strong>Duración:</strong> <span id="duracion-curso"></span></p>
         <p><strong>Modalidad:</strong> <span id="modalidad-curso"></span></p>
@@ -57,72 +120,9 @@
         <p><strong>Objetivo del curso:</strong> <span id="objetivo-curso"></span></p>
         <p><em>Una vez registrado, tendrás acceso inmediato al curso…</em></p>
       </div>
-
-      <!-- Estado del usuario -->
-<div id="estado-usuario" data-inscripto="{% if usuarioYaInscripto %}true{% else %}false{% endif %}"></div>
-
-<!-- Formulario de inscripción -->
-<div id="form-inscripcion" class="p-3 bg-light rounded shadow-sm mb-3">
-  <h4>Formulario de Inscripción</h4>
-  <form action="{{ url_for('inscribirse') }}" method="post" id="form-inscripcion-form">
-    <input type="hidden" name="curso" id="input-curso">
-    <input type="hidden" name="precio" id="input-precio">
-    
-    <!-- Nombre -->
-    <div class="mb-3">
-      <label for="nombre" class="form-label">Nombre</label>
-      <input type="text" class="form-control" name="nombre" id="nombre" required>
     </div>
-
-    <!-- Apellido -->
-    <div class="mb-3">
-      <label for="apellido" class="form-label">Apellido</label>
-      <input type="text" class="form-control" name="apellido" id="apellido" required>
-    </div>
-
-    <!-- Fecha de nacimiento -->
-    <div class="mb-3">
-      <label for="fecha_nacimiento" class="form-label">Fecha de Nacimiento</label>
-      <input type="date" class="form-control" name="fecha_nacimiento" id="fecha_nacimiento" required>
-    </div>
-
-    <!-- Email -->
-    <div class="mb-3">
-      <label for="email" class="form-label">Email</label>
-      <input type="email" class="form-control" name="email" id="email" required>
-    </div>
-
-    <!-- DNI -->
-    <div class="mb-3">
-      <label for="dni" class="form-label">DNI</label>
-      <input type="text" class="form-control" name="dni" id="dni" required>
-    </div>
-
-    <!-- Teléfono -->
-    <div class="mb-3">
-      <label for="telefono" class="form-label">Teléfono</label>
-      <input type="tel" class="form-control" name="telefono" id="telefono" required>
-    </div>
-
-    <!-- Contraseña para el campus -->
-    <div class="mb-3">
-      <label for="password" class="form-label">Contraseña para el campus</label>
-      <input type="password" class="form-control" name="password" id="password" required>
-      <small class="text-danger d-block mt-1">
-        ⚠️ Recuerde esta contraseña porque será para ingresar al campus.
-      </small>
-    </div>
-  </form>
-</div>
-
-<!-- Botón fuera del formulario -->
-<div id="boton-siguiente-container" class="text-center mb-4">
-  <button id="btnSiguiente" type="button" class="btn btn-primary">Ir a Pagar</button>
-</div>
-
-
-    <div class="col-md-6">
-      <div class="detalle-curso p-3 bg-white rounded shadow-sm">
+     
+      <div class="detalle-curso p-3 bg-white rounded shadow-sm flex-fill">
         <h2 id="titulo-curso" class="mb-3"></h2>
         <img id="imagen-curso" src="" alt="Imagen del curso" class="img-fluid mb-3">
         <p><strong>Precio del curso:</strong> $<span id="precio-curso"></span></p>
@@ -131,17 +131,127 @@
         <div class="accordion mt-2" id="accordionCurso"></div>
 
         <div class="botones mt-3 text-center">
-          <a href="#" class="btn btn-secondary btn-sm">Volver a cursos</a>
+          <a href= "{{ url_for('cursos') }}" class="btn btn-secondary btn-sm">Volver a cursos</a>
         </div>
       </div>
-    </div>
-  </div>
-</div>
+     </div>
 
-
- 
+   
   
+   </div>
+  </div>
+
+ </div>
   <script>
+document.addEventListener("DOMContentLoaded", () => {
+    const form = document.getElementById("form-inscripcion-form");
+    const btnSiguiente = document.getElementById("btnSiguiente");
+
+    // Función para mostrar mensaje de error debajo del input
+    function mostrarError(input, mensaje) {
+        limpiarError(input); // Limpiamos errores previos
+        const error = document.createElement("div");
+        error.className = "text-danger mt-1";
+        error.textContent = mensaje;
+        input.classList.add("is-invalid");
+        input.parentNode.appendChild(error);
+    }
+
+    // Función para limpiar error
+    function limpiarError(input) {
+        input.classList.remove("is-invalid");
+        const error = input.parentNode.querySelector(".text-danger");
+        if (error) error.remove();
+    }
+
+    btnSiguiente.addEventListener("click", () => {
+        let valido = true;
+
+        // Inputs
+        const nombre = document.getElementById("nombre");
+        const apellido = document.getElementById("apellido");
+        const fecha = document.getElementById("fecha_nacimiento");
+        const email = document.getElementById("email");
+        const dni = document.getElementById("dni");
+        const telefono = document.getElementById("telefono");
+
+        const regexNombre = /^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/;
+        const regexDni = /^\d{8}$/;
+        const regexTelefono = /^\d+$/;
+        const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        // Validar nombre
+        if (!nombre.value.trim() || !regexNombre.test(nombre.value.trim())) {
+            mostrarError(nombre, "El nombre solo puede contener letras y espacios.");
+            valido = false;
+        } else {
+            limpiarError(nombre);
+        }
+
+        // Validar apellido
+        if (!apellido.value.trim() || !regexNombre.test(apellido.value.trim())) {
+            mostrarError(apellido, "El apellido solo puede contener letras y espacios.");
+            valido = false;
+        } else {
+            limpiarError(apellido);
+        }
+
+        // Validar fecha de nacimiento (18 a 105 años)
+        if (!fecha.value) {
+            mostrarError(fecha, "Este campo es obligatorio.");
+            valido = false;
+        } else {
+            const hoy = new Date();
+            const cumple = new Date(fecha.value);
+            let edad = hoy.getFullYear() - cumple.getFullYear();
+            const mes = hoy.getMonth() - cumple.getMonth();
+            const dia = hoy.getDate() - cumple.getDate();
+            if (mes < 0 || (mes === 0 && dia < 0)) edad--; // Ajuste si no cumplió años aún
+
+            if (edad < 18 || edad > 105) {
+                mostrarError(fecha, "Debes tener entre 18 y 105 años.");
+                valido = false;
+            } else {
+                limpiarError(fecha);
+            }
+        }
+
+        // Validar email
+        if (!email.value.trim() || !regexEmail.test(email.value.trim())) {
+            mostrarError(email, "Ingrese un email válido.");
+            valido = false;
+        } else {
+            limpiarError(email);
+        }
+
+        // Validar DNI (8 dígitos)
+        if (!dni.value.trim() || !regexDni.test(dni.value.trim())) {
+            mostrarError(dni, "El DNI debe tener 8 números.");
+            valido = false;
+        } else {
+            limpiarError(dni);
+        }
+
+        // Validar teléfono (solo números)
+        if (!telefono.value.trim() || !regexTelefono.test(telefono.value.trim())) {
+            mostrarError(telefono, "El teléfono debe contener solo números.");
+            valido = false;
+        } else {
+            limpiarError(telefono);
+        }
+
+        // Si todo es válido, enviamos el formulario
+        if (valido) {
+            form.submit();
+        }
+    });
+});
+</script>
+
+
+ <script>
+    document.addEventListener("DOMContentLoaded", () => {
+
     const cursos = {
       "python": {
         titulo: "Curso de Python",
@@ -149,7 +259,7 @@
         modalidad: "Online asincrónico",
         requisitos: "Ninguno, solo ganas de aprender",
         objetivo: "Aprender Python desde cero y aplicar conceptos prácticos en proyectos sencillos.",
-        imagen: "{{ url_for('static', filename='cursos copy/python.JPG') }}",
+        imagen: "{{ url_for('static', filename='cursos_copy/python.JPG') }}",
         precio: 25000,
         plan: [
           {nombre: "Introducción, conceptos y entrada de datos.", descripcion: "Programación básica, tipos de datos y errores."},
@@ -164,7 +274,7 @@
         modalidad: "Online asincrónico",
         requisitos: "Conocimientos básicos de programación",
         objetivo: "Crear aplicaciones robustas y portables con Java.",
-        imagen: "{{ url_for('static', filename='cursos copy/java.JPG') }}",
+        imagen: "{{ url_for('static', filename='cursos_copy/java.JPG') }}",
         precio: 28000,
         plan: [
           {nombre: "Introducción a Java", descripcion: "Sintaxis básica y primeros programas."},
@@ -179,7 +289,7 @@
         modalidad: "Online asincrónico",
         requisitos: "Conocimientos básicos de programación",
         objetivo: "Crear aplicaciones escalables para web, escritorio y móviles.",
-        imagen: "{{ url_for('static', filename='cursos copy/net.JPG') }}",
+        imagen: "{{ url_for('static', filename='cursos_copy/net.JPG') }}",
         precio: 27000,
         plan: [
           {nombre: "Introducción a .Net", descripcion: "Conceptos generales y primeros proyectos."},
@@ -194,7 +304,7 @@
         modalidad: "Online asincrónico",
         requisitos: "Ninguno, solo ganas de aprender",
         objetivo: "Aprender los fundamentos de JS y desarrollar soluciones dinámicas.",
-        imagen: "{{ url_for('static', filename='cursos copy/javascrip.JPG') }}",
+        imagen: "{{ url_for('static', filename='cursos_copy/javascrip.JPG') }}",
         precio: 26000,
         plan: [
           {nombre: "Fundamentos de JavaScript", descripcion: "Variables, operadores y funciones."},
@@ -209,7 +319,7 @@
         modalidad: "Online asincrónico",
         requisitos: "Conocimientos básicos de computación",
         objetivo: "Aprender a usar IA para generar contenido y automatizar tareas.",
-        imagen: "{{ url_for('static', filename='cursos copy/ia.JPG') }}",
+        imagen: "{{ url_for('static', filename='cursos_copy/ia.JPG') }}",
         precio: 35000,
         plan: [
           {nombre: "Introducción a IA", descripcion: "Conceptos y aplicaciones básicas de Inteligencia Artificial."},
@@ -224,7 +334,7 @@
         modalidad: "Online asincrónico",
         requisitos: "Conocimientos básicos de computación",
         objetivo: "Aprender a interactuar y generar respuestas con Chat GPT de forma efectiva.",
-        imagen: "{{ url_for('static', filename='cursos copy/11.JPG') }}",
+        imagen: "{{ url_for('static', filename='cursos_copy/11.JPG') }}",
         precio: 30000,
         plan: [
           {nombre: "Introducción a Chat GPT", descripcion: "Conceptos básicos de modelos de lenguaje y chatbots."},
@@ -239,7 +349,7 @@
         modalidad: "Online asincrónico",
         requisitos: "Conocimientos básicos de diseño o computación",
         objetivo: "Aprender a generar contenido visual atractivo con herramientas de IA.",
-        imagen: "{{ url_for('static', filename='cursos copy/Captura1.JPG') }}",
+        imagen: "{{ url_for('static', filename='cursos_copy/Captura1.JPG') }}",
         precio: 35000,
         plan: [
           {nombre: "Fundamentos de IA Visual", descripcion: "Introducción a modelos generativos y sus aplicaciones."},
@@ -254,7 +364,7 @@
         modalidad: "Online asincrónico",
         requisitos: "Conocimientos básicos de programación e IA",
         objetivo: "Profundizar en técnicas avanzadas de IA e implementarlas en proyectos complejos.",
-        imagen: "{{ url_for('static', filename='cursos copy/ia-generativa-1.jpeg') }}",
+        imagen: "{{ url_for('static', filename='cursos_copy/ia-generativa-1.jpeg') }}",
         precio: 40000,
         plan: [
           {nombre: "Modelos avanzados de IA", descripcion: "Redes neuronales profundas y generación de contenido complejo."},
@@ -269,7 +379,7 @@
         modalidad: "Online asincrónico",
         requisitos: "Conocimientos básicos de computación",
         objetivo: "Aprender a gestionar comunidades online y fomentar la interacción con seguidores.",
-        imagen: "{{ url_for('static', filename='cursos copy/managger.JPG') }}",
+        imagen: "{{ url_for('static', filename='cursos_copy/managger.JPG') }}",
         precio: 20000,
         plan: [
           {nombre: "Fundamentos de Community Management", descripcion: "Gestión de comunidades y redes sociales."},
@@ -284,7 +394,7 @@
         modalidad: "Online asincrónico",
         requisitos: "Conocimientos básicos de marketing o computación",
         objetivo: "Optimizar sitios web para mejorar visibilidad en buscadores.",
-        imagen: "{{ url_for('static', filename='cursos copy/SEO.png') }}",
+        imagen: "{{ url_for('static', filename='cursos_copy/SEO.png') }}",
         precio: 22000,
         plan: [
           {nombre: "Introducción al SEO", descripcion: "Conceptos básicos y motores de búsqueda."},
@@ -299,7 +409,7 @@
         modalidad: "Online asincrónico",
         requisitos: "Conocimientos básicos de marketing digital",
         objetivo: "Crear campañas efectivas en redes sociales.",
-        imagen: "{{ url_for('static', filename='cursos copy/META-ADS.png') }}",
+        imagen: "{{ url_for('static', filename='cursos_copy/META-ADS.png') }}",
         precio: 25000,
         plan: [
           {nombre: "Fundamentos de publicidad", descripcion: "Plataformas y tipos de anuncios."},
@@ -314,7 +424,7 @@
         modalidad: "Online asincrónico",
         requisitos: "Conocimientos básicos de marketing digital",
         objetivo: "Fidelizar clientes y aumentar ventas mediante estrategias de contenido.",
-        imagen: "{{ url_for('static', filename='cursos copy/CANVA.png') }}",
+        imagen: "{{ url_for('static', filename='cursos_copy/CANVA.png') }}",
         precio: 18000,
         plan: [
           {nombre: "Introducción al marketing de contenido", descripcion: "Objetivos, tipos y formatos de contenido."},
@@ -329,7 +439,7 @@
         modalidad: "Online asincrónico",
         requisitos: "Gusto por el diseño y creatividad",
         objetivo: "Aprender a crear interfaces atractivas y experiencias de usuario intuitivas.",
-        imagen: "{{ url_for('static', filename='cursos copy/UIUX.png') }}",
+        imagen: "{{ url_for('static', filename='cursos_copy/UIUX.png') }}",
         precio: 30000,
         plan: [
           {nombre: "Introducción a UI/UX", descripcion: "Principios y mejores prácticas."},
@@ -344,7 +454,7 @@
         modalidad: "Online asincrónico",
         requisitos: "Conocimientos de programación y bases de datos",
         objetivo: "Analizar grandes volúmenes de datos y extraer información valiosa.",
-        imagen: "{{ url_for('static', filename='cursos copy/BIGDATA.png') }}",
+        imagen: "{{ url_for('static', filename='cursos_copy/BIGDATA.png') }}",
         precio: 40000,
         plan: [
           {nombre: "Fundamentos de Big Data", descripcion: "Conceptos, arquitecturas y herramientas."},
@@ -352,11 +462,230 @@
           {nombre: "Análisis avanzado", descripcion: "Machine learning y visualización de datos."},
           {nombre: "Proyecto final", descripcion: "Analizar un dataset real y generar reportes útiles."}
         ]
-      }
-    };
+      },
+      "intro-uiux": { 
+        titulo: "Introducción a UI/UX", 
+        duracion: "5 semanas", 
+        modalidad: "Online asincrónico", 
+        requisitos: "Ninguno, solo interés en diseño", 
+        objetivo: "Aprender los conceptos básicos de diseño de interfaces y experiencia de usuario.", 
+        imagen: "{{ url_for('static', filename='cursos_copy/ui-ux.jpg') }}", 
+        precio: 25000, 
+        plan: [ 
+                {
+                    nombre: "Fundamentos de UI/UX", 
+                    descripcion: "Principios de diseño y usabilidad."
+                }, 
+                {
+                    nombre: "Investigación de usuarios", 
+                    descripcion: "Métodos para conocer necesidades y comportamientos."
+                }, 
+                {
+                    nombre: "Prototipos y wireframes", 
+                    descripcion: "Creación de prototipos funcionales."
+                }, 
+                {
+                    nombre: "Proyecto final", 
+                    descripcion: "Diseñar una interfaz completa con experiencia de usuario óptima."
+                } 
+              ] 
+    }, 
+    "ui-animations": { 
+        titulo: "UI Animations / Microinteracciones", 
+        duracion: "4 semanas", 
+        modalidad: "Online asincrónico", 
+        requisitos: "Conocimientos básicos de UI/UX", 
+        objetivo: "Aprender a implementar animaciones y microinteracciones para mejorar la experiencia del usuario.", imagen: "{{ url_for('static', filename='cursos_copy/experiencia-do-usuario-ux.jpg') }}", 
+        precio: 25000, 
+        plan: [ 
+                {
+                    nombre: "Fundamentos de animaciones", 
+                    descripcion: "Principios de movimiento y feedback visual."
+                }, 
+                {
+                    nombre: "Microinteracciones", 
+                    descripcion: "Diseño de interacciones pequeñas pero significativas."
+                }, 
+                {
+                    nombre: "Transiciones y flujo", 
+                    descripcion: "Mejorar la navegación con animaciones."
+                }, 
+                {
+                    nombre: "Proyecto final", 
+                    descripcion: "Implementar animaciones y microinteracciones en un proyecto real."
+                } 
+              ] 
+    }, 
+    "herramientas-diseno": { 
+        titulo: "Herramientas de Diseño Profesionales/Avanzado", 
+        duracion: "6 semanas", 
+        modalidad: "Online asincrónico", 
+        requisitos: "Conocimientos básicos de UI/UX", 
+        objetivo: "Dominar herramientas de diseño como Figma y Adobe XD para crear interfaces atractivas.", 
+        imagen: "{{ url_for('static', filename='cursos_copy/ui.jpg') }}", 
+        precio: 22000, 
+        plan: [ 
+                {
+                    nombre: "Introducción a herramientas de diseño", 
+                    descripcion: "Figma, Adobe XD y flujos de trabajo."
+                }, 
+                {
+                    nombre: "Diseño avanzado", 
+                    descripcion: "Componentes, prototipos interactivos y estilos."
+                }, 
+                {
+                    nombre: "Optimización y colaboración", 
+                    descripcion: "Trabajo en equipo y buenas prácticas."
+                }, 
+                {
+                    nombre: "Proyecto final", 
+                    descripcion: "Diseñar un producto completo usando herramientas profesionales."
+                } 
+              ] 
+    }, 
+    "ux-productos": { 
+        titulo: "UX para productos digitales", 
+        duracion: "5 semanas", 
+        modalidad: "Online asincrónico", 
+        requisitos: "Conocimientos básicos de UI/UX", 
+        objetivo: "Aprender a diseñar productos centrados en el usuario para mejorar la experiencia digital.", 
+        imagen: "{{ url_for('static', filename='cursos_copy/diseno-productos-digitales.jpg') }}", 
+        precio: 30000, 
+        plan: [ 
+                {
+                    nombre: "Investigación UX", 
+                    descripcion: "Análisis de usuarios y necesidades."
+                }, 
+                {
+                    nombre: "Diseño centrado en el usuario", 
+                    descripcion: "Aplicación de principios UX en interfaces."
+                }, 
+                {
+                    nombre: "Pruebas y feedback", 
+                    descripcion: "Evaluación de usabilidad y mejoras."
+                }, 
+                {
+                    nombre: "Proyecto final", 
+                    descripcion: "Desarrollar un producto digital con experiencia de usuario optimizada."
+                } 
+              ] 
+    }, 
+    "ciencia-datos": { 
+        titulo: "Ciencia de Datos", 
+        duracion: "6 semanas", 
+        modalidad: "Online asincrónico", 
+        requisitos: "Conocimientos básicos de computación y estadística", 
+        objetivo: "Desarrollar e implementar soluciones basadas en Big Data, Machine Learning y Deep Learning.", 
+        imagen: "{{ url_for('static', filename='cursos_copy/OPTIMIZACION.png') }}", 
+        precio: 22000, 
+        plan: [ 
+                {
+                    nombre: "Fundamentos de Ciencia de Datos", 
+                    descripcion: "Introducción a Big Data y análisis de datos masivos."
+                }, 
+                {
+                    nombre: "Machine Learning básico", 
+                    descripcion: "Algoritmos y técnicas de ML aplicadas a datasets."
+                }, 
+                {
+                    nombre: "Deep Learning", 
+                    descripcion: "Redes neuronales y procesamiento de datos complejos."
+                }, 
+                {
+                    nombre: "Proyecto final", 
+                    descripcion: "Implementar un caso práctico usando Ciencia de Datos y Big Data."
+                } 
+              ] 
+    }, 
+    "introduccion-bigdata": { 
+        titulo: "Introducción a Big Data", 
+        duracion: "5 semanas", 
+        modalidad: "Online asincrónico", 
+        requisitos: "Ninguno, solo interés en análisis de datos", 
+        objetivo: "Conocer los fundamentos del Big Data, arquitecturas distribuidas y ecosistemas de datos masivos.", imagen: "{{ url_for('static', filename='cursos_copy/BigData.png') }}", 
+        precio: 24000, 
+        plan: [ 
+                {
+                    nombre: "Fundamentos de Big Data", 
+                    descripcion: "Conceptos, arquitectura y ecosistemas."
+                }, 
+                {
+                    nombre: "Hadoop y ecosistemas", 
+                    descripcion: "Introducción a Hadoop, HDFS y MapReduce."
+                }, 
+                {
+                    nombre: "Procesamiento distribuido", 
+                    descripcion: "Frameworks y análisis de datos a gran escala."
+                }, 
+                {
+                    nombre: "Proyecto final", 
+                    descripcion: "Analizar y procesar un dataset masivo como caso práctico."
+                } 
+              ] 
+    }, 
+    "ia-bigdata": { 
+        titulo: "IA y Big Data", 
+        duracion: "6 semanas", 
+        modalidad: "Online asincrónico", 
+        requisitos: "Conocimientos básicos de programación y análisis de datos", 
+        objetivo: "Aprender a manejar grandes volúmenes de datos con Hadoop y Spark para análisis distribuidos.", imagen: "{{ url_for('static', filename='cursos_copy/Data.jpg') }}", 
+        precio: 28000, 
+        plan: [ 
+                {
+                    nombre: "Fundamentos de IA y Big Data", 
+                    descripcion: "Conceptos y arquitectura de datos masivos."
+                }, 
+                {
+                    nombre: "Hadoop y Spark", 
+                    descripcion: "Procesamiento distribuido de datos con frameworks populares."
+                }, 
+                {
+                    nombre: "Integración con IA", 
+                    descripcion: "Uso de algoritmos de Machine Learning sobre Big Data."
+                }, 
+                {
+                    nombre: "Proyecto final", 
+                    descripcion: "Desarrollar un análisis completo usando IA y Big Data."
+                }
+              ] 
+    }, 
+    "analisis-datos": { 
+        titulo: "Análisis de Datos", 
+        duracion: "5 semanas", 
+        modalidad: "Online asincrónico", 
+        requisitos: "Conocimientos básicos de estadísticas y programación", 
+        objetivo: "Analizar datos masivos aplicando estadísticas, machine learning y visualización con Python.", 
+        imagen: "{{ url_for('static', filename='cursos_copy/POWER-BI.png') }}", 
+        precio: 30000, 
+        plan: [ 
+                {
+                    nombre: "Estadísticas y análisis de datos", 
+                    descripcion: "Herramientas y técnicas estadísticas."
+                }, 
+                {
+                    nombre: "Machine Learning aplicado", 
+                    descripcion: "Aplicación de algoritmos a datasets reales."
+                }, 
+                {
+                    nombre: "Visualización de datos", 
+                    descripcion: "Creación de gráficos y dashboards con Python."
+                }, 
+                {
+                    nombre: "Proyecto final", 
+                    descripcion: "Analizar un dataset real aplicando ML y visualización."
+                }
+              ] 
+    } 
+    
+};
 
+    const pathParts = window.location.pathname.split("/");
+    let id = pathParts[pathParts.length - 1];  
     const params = new URLSearchParams(window.location.search);
-    const id = params.get("id") || "python";
+    if (params.get("id")) {
+        id = params.get("id");
+    }
+
     const curso = cursos[id];
 
     const titulo = document.getElementById("titulo-curso");
@@ -405,14 +734,10 @@
       precioCurso.textContent = "No disponible";
     }
 
-    
-
-document.addEventListener("DOMContentLoaded", () => {
   // Detecta si el usuario ya está inscrito
   const estadoUsuario = document.getElementById("estado-usuario");
   const usuarioYaInscripto = estadoUsuario.dataset.inscripto === "true";
 
-  // Obtiene los elementos del DOM
   const contenedorForm = document.getElementById("form-inscripcion");
   const formEl = document.getElementById("form-inscripcion-form");
   const botonSiguiente = document.getElementById("btnSiguiente");
@@ -434,18 +759,76 @@ document.addEventListener("DOMContentLoaded", () => {
 
     botonSiguiente.textContent = "Siguiente";
     botonSiguiente.type = "button"; // botón fuera del formulario
-    botonSiguiente.onclick = () => {
-      if (formEl.checkValidity()) {
-        formEl.method = "post";
-        formEl.action = "/inscribirse";
+   botonSiguiente.onclick = () => {
+    // Validación personalizada
+    let valido = true;
+
+    const nombre = document.getElementById("nombre");
+    const apellido = document.getElementById("apellido");
+    const fecha = document.getElementById("fecha_nacimiento");
+    const email = document.getElementById("email");
+    const dni = document.getElementById("dni");
+    const telefono = document.getElementById("telefono");
+
+    // Regex y limpieza de errores
+    const regexNombre = /^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/;
+    const regexDni = /^\d{8}$/;
+    const regexTelefono = /^\d+$/;
+    const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    function mostrarError(input, mensaje){
+        limpiarError(input);
+        const error = document.createElement("div");
+        error.className = "text-danger mt-1";
+        error.textContent = mensaje;
+        input.classList.add("is-invalid");
+        input.parentNode.appendChild(error);
+    }
+
+    function limpiarError(input){
+        input.classList.remove("is-invalid");
+        const error = input.parentNode.querySelector(".text-danger");
+        if(error) error.remove();
+    }
+
+    // Validaciones
+    if(!nombre.value.trim() || !regexNombre.test(nombre.value.trim())){ mostrarError(nombre,"El nombre solo puede contener letras y espacios."); valido=false;}
+    else limpiarError(nombre);
+
+    if(!apellido.value.trim() || !regexNombre.test(apellido.value.trim())){ mostrarError(apellido,"El apellido solo puede contener letras y espacios."); valido=false;}
+    else limpiarError(apellido);
+
+    if(!fecha.value){ mostrarError(fecha,"Este campo es obligatorio."); valido=false;}
+    else{
+        const hoy = new Date();
+        const cumple = new Date(fecha.value);
+        let edad = hoy.getFullYear() - cumple.getFullYear();
+        const mes = hoy.getMonth() - cumple.getMonth();
+        const dia = hoy.getDate() - cumple.getDate();
+        if(mes < 0 || (mes === 0 && dia < 0)) edad--;
+        if(edad < 18 || edad > 105){ mostrarError(fecha,"Debes tener entre 18 y 105 años."); valido=false;}
+        else limpiarError(fecha);
+    }
+
+    if(!email.value.trim() || !regexEmail.test(email.value.trim())){ mostrarError(email,"Ingrese un email válido."); valido=false;}
+    else limpiarError(email);
+
+    if(!dni.value.trim() || !regexDni.test(dni.value.trim())){ mostrarError(dni,"El DNI debe tener 8 números."); valido=false;}
+    else limpiarError(dni);
+
+    if(!telefono.value.trim() || !regexTelefono.test(telefono.value.trim())){ mostrarError(telefono,"El teléfono debe contener solo números."); valido=false;}
+    else limpiarError(telefono);
+
+    // Solo enviar si todo es válido
+    if(valido){
+        formEl.method="post";
+        formEl.action="/inscribirse";
         formEl.submit();
-      } else {
-        formEl.reportValidity(); // muestra errores de validación
-      }
-    };
+    }
+};
+
   }
 });
-
 
 
 

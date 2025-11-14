@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Evaluación Final</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style_AnalisisDeDatos.css') }}">
+</head>
+<body>
+  <main class="quiz-container container py-4">
+    <h2 class="text-center mb-3">Evaluación Final</h2>
+    <p class="text-center">Tienes 5 minutos para completar el test. Para aprobar con nota máxima debes obtener al menos 7 puntos.</p>
+    <div class="text-center mb-3">
+      <span>Tiempo restante: </span><span id="timer">05:00</span>
+    </div>
+
+    <form id="quizForm">
+      <!-- Preguntas -->
+      <div class="question">
+        <p><strong>1.  ¿Cuál es el orden correcto de las primeras tres etapas fundamentales en el ciclo de vida del análisis de datos? </strong></p>
+        <label><input type="radio" name="q1" value="Par"> a) Obtención > Limpieza > Análisis. </label><br>
+        <label><input type="radio" name="q1" value="Impar"> b) Visualización > Interpretación > Modelado.</label><br>
+        <label><input type="radio" name="q1" value="7"> c) Limpieza > Obtención > Análisis. </label>
+      </div>
+
+      <div class="question">
+        <p><strong>2. En el análisis de datos, el conjunto total de todos los elementos cuyo conocimiento interesa y son objeto de estudio se denomina:</strong></p>
+        <label><input type="radio" name="q2" value="correcta"> a) Población. </label><br>
+        <label><input type="radio" name="q2" value="opcion2"> b) Variable Cualitativa.</label><br>
+        <label><input type="radio" name="q2" value="opcion3"> c) Muestra. </label>
+      </div>
+
+      <div class="question">
+        <p><strong>3. ¿Cuál es una técnica de Imputación común para manejar los valores faltantes (NaN) en una columna de datos cuantitativos?</strong></p>
+        <label><input type="radio" name="q3" value="Tupla"> a) Conversión a formato de fecha. </label><br>
+        <label><input type="radio" name="q3" value="Lista"> b) Imputación con la media o mediana de la columna. </label><br>
+        <label><input type="radio" name="q3" value="Conjunto"> c) Eliminación de toda la columna. </label><br>
+      </div>
+
+      <div class="question">
+        <p><strong>4. ¿Qué representan los outliers (valores atípicos) en la etapa de limpieza de datos?</strong></p>
+        <label><input type="radio" name="q4" value="correcta"> a) Valores que se desvían significativamente de la mayoría de los demás datos en la muestra.</label><br>
+        <label><input type="radio" name="q4" value="opcion2"> b) Datos que deben estandarizarse antes de la normalización. </label><br>
+        <label><input type="radio" name="q4" value="opcion3"> c) Campos que contienen texto en lugar de números. </label>
+      </div>
+
+      <div class="question">
+        <p><strong>5. La Desviación Estándar es una medida de dispersión que indica: </strong></p>
+        <label><input type="radio" name="q5" value="correcta"> a) Cuánto se alejan los valores individuales del valor promedio (media) del conjunto. </label><br>
+        <label><input type="radio" name="q5" value="opcion2"> b) El valor que se repite con mayor frecuencia en el conjunto de datos. </label><br>
+        <label><input type="radio" name="q5" value="opcion3"> c) El valor central que divide el conjunto de datos en dos mitades iguales. </label>
+      </div>
+
+      <div class="question">
+        <p><strong>6. ¿Qué tipo de gráfico se utiliza típicamente para examinar la relación o correlación entre dos variables numéricas? </strong></p>
+        <label><input type="radio" name="q6" value="correcta"> a) Diagrama de Dispersión (Scatter Plot).</label><br>
+        <label><input type="radio" name="q6" value="opcion2"> b) Histograma.</label><br>
+        <label><input type="radio" name="q6" value="opcion3"> c) Gráfico Circular (Pie Chart).</label>
+      </div>
+
+      <div class="question">
+        <p><strong>7. Un modelo de Machine Learning se considera Supervisado cuando: </strong></p>
+        <label><input type="radio" name="q7" value="correcta"> a) El conjunto de datos de entrenamiento incluye etiquetas o respuestas correctas para que el algoritmo aprenda.</label><br>
+        <label><input type="radio" name="q7" value="opcion2"> b) El modelo debe encontrar patrones y estructuras ocultas sin etiquetas de salida predefinidas. </label><br>
+        <label><input type="radio" name="q7" value="opcion3"> c) El algoritmo aprende interactuando con un entorno y recibiendo recompensas o castigos. </label>
+      </div>
+
+      <div class="question">
+        <p><strong>8. ¿Cuál es el objetivo principal de un modelo de Regresión Lineal? </strong></p>
+        <label><input type="radio" name="q8" value="correcta"> a) Encontrar la relación y predecir una variable numérica continua (ej. precio, salario). </label><br>
+        <label><input type="radio" name="q8" value="opcion2"> b) Agrupar puntos de datos similares en cúmulos (clustering). </label><br>
+        <label><input type="radio" name="q8" value="opcion3"> c) Predecir una variable categórica o clasificar un resultado (ej. sí/no). </label>
+      </div>
+
+      <div class="question">
+        <p><strong>9. Las '5 V's' se utilizan para describir las características del Big Data. ¿Cuál de las siguientes NO es una de las V's principales (Volumen, Velocidad, Variedad, Veracidad, Valor)? </strong></p>
+        <label><input type="radio" name="q9" value="correcta"> a) Validación. </label><br>
+        <label><input type="radio" name="q9" value="opcion2"> b) Veracidad.</label><br>
+        <label><input type="radio" name="q9" value="opcion3"> c) Variedad. </label> 
+      </div>
+
+      <div class="question">
+        <p><strong>10. ¿Qué plataforma o herramienta es fundamental en el ecosistema de Big Data para el almacenamiento y procesamiento distribuido de grandes conjuntos de datos?</strong></p>
+        <label><input type="radio" name="q10" value="correcta"> a) Apache Hadoop.</label><br>
+        <label><input type="radio" name="q10" value="opcion2"> b) Microsoft Excel.</label><br>
+        <label><input type="radio" name="q10" value="opcion3"> c) Tableau. </label>
+      </div>
+
+      <button type="submit" class="btn btn-primary mt-3">Enviar</button>
+    </form>
+
+   <div id="result" class="mt-3"></div>
+
+    <div class="text-center mt-3">
+      <button id="retryBtn" class="btn btn-warning" style="display:none;">Volver a intentar</button>
+      <button id="certBtn" class="btn btn-success" style="display:none;">Obtener mi certificado</button>
+    </div>
+  </main>
+
+<script>
+  const totalPreguntas = 10;
+  const minAprobado = 7;
+  let tiempoRestante = 300; // 5 minutos
+  let temporizador;
+
+  const timerSpan = document.getElementById('timer');
+  const quizForm = document.getElementById('quizForm');
+  const result = document.getElementById('result');
+  const retryBtn = document.getElementById('retryBtn');
+  const certBtn = document.getElementById('certBtn');
+
+  // === INICIAR TEMPORIZADOR ===
+  function iniciarTemporizador() {
+    clearInterval(temporizador);
+    tiempoRestante = 300;
+    temporizador = setInterval(() => {
+      let minutos = Math.floor(tiempoRestante / 60);
+      let segundos = tiempoRestante % 60;
+      timerSpan.textContent = `${minutos.toString().padStart(2,'0')}:${segundos.toString().padStart(2,'0')}`;
+      tiempoRestante--;
+      if (tiempoRestante < 0) {
+        clearInterval(temporizador);
+        evaluarTest(true);
+      }
+    }, 1000);
+  }
+
+  // === RESETEAR TEST ===
+  function resetearTest() {
+    quizForm.reset();
+    result.innerHTML = '';
+    retryBtn.style.display = 'none';
+    certBtn.style.display = 'none';
+    iniciarTemporizador();
+  }
+
+  // === EVENTOS PRINCIPALES ===
+  quizForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+    evaluarTest(false);
+  });
+
+  retryBtn.addEventListener('click', resetearTest);
+
+  certBtn.addEventListener('click', () => {
+    window.location.href = 'certificado.html';
+  });
+
+  // === EVALUAR TEST ===
+  function evaluarTest(tiempoAcabado) {
+    const respuestasCorrectas = {
+      q1:'Impar', q2:'correcta', q3:'Lista', q4:'correcta', q5:'correcta',
+      q6:'correcta', q7:'correcta', q8:'correcta', q9:'correcta', q10:'correcta'
+    };
+
+    let puntaje = 0;
+
+    for (let q in respuestasCorrectas) {
+      const r = document.querySelector(`input[name="${q}"]:checked`);
+      if (r && r.value === respuestasCorrectas[q]) {
+        puntaje++;
+      }
+    }
+
+    if (puntaje >= minAprobado) {
+      // === APROBADO ===
+      result.innerHTML = `
+        <p>¡Felicidades! Puntaje: ${puntaje}/${totalPreguntas}.</p>
+        <p>Ahora puedes obtener tu certificado y tendrás la oportunidad de subir un proyecto guiado en PDF para mejorar tu perfil profesional en la bolsa de empleo de EducaciónIT.</p>
+      `;
+
+      // ✅ GUARDAR PROGRESO EN LOCALSTORAGE (estructura igual a Python)
+      const localStorageKey = "progresoAnalisisDatos";
+      let progreso = {
+        moduloActual: 0,
+        temaActual: 0,
+        curso: [],
+        cursoCompletado: true
+      };
+
+      const data = localStorage.getItem(localStorageKey);
+      if (data) {
+        progreso = JSON.parse(data);
+        progreso.cursoCompletado = true;
+      }
+      localStorage.setItem(localStorageKey, JSON.stringify(progreso));
+
+      // También guardar la bandera individual (por compatibilidad)
+      localStorage.setItem("cursoAnalisisCompletado", "true");
+
+      // Mostrar botón de certificado
+      certBtn.style.display = 'inline-block';
+      retryBtn.style.display = 'none';
+      clearInterval(temporizador);
+    } else {
+      // === NO APROBADO ===
+      if (tiempoAcabado) {
+        result.innerHTML = `<p>Se acabó el tiempo. Obtuviste ${puntaje}/${totalPreguntas}. Debes volver a intentar el test.</p>`;
+      } else {
+        result.innerHTML = `<p>Obtuviste ${puntaje}/${totalPreguntas}. Debes repetir el test.</p>`;
+      }
+      retryBtn.style.display = 'inline-block';
+      certBtn.style.display = 'none';
+      clearInterval(temporizador);
+    }
+  }
+
+  // === INICIO AUTOMÁTICO ===
+  iniciarTemporizador();
+</script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

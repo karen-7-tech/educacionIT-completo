@@ -5,10 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Pago del Curso</title>
   <!-- Favicon -->
-  <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='img/EducacioIT.jpg') }}">
+  <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='Imágenes/EducacioIT.jpg') }}">
   <!-- CSS -->
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/seleccion_cursos.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='pago_cursos.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='seleccion_cursos.css') }}">
+
   <!-- Iconos de Bootstrap -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
   <!-- Bootstrap -->
@@ -21,7 +23,7 @@
     <nav class="navbar navbar-expand-md navbar-light fixed-top bg-white shadow-sm">
       <div class="container">
         <a class="navbar-brand" href="{{ url_for('index') }}">
-          <img src="{{ url_for('static', filename='img/EducacioIT.jpg') }}" alt="Logo Educación IT" height="60">
+          <img src="{{ url_for('static', filename='Imágenes/EducacioIT.jpg') }}" alt="Logo Educación IT" height="60">
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive">
           <span class="navbar-toggler-icon"></span>
@@ -34,7 +36,7 @@
             <li class="nav-item"><a class="nav-link" href="{{ url_for('cursos') }}">Cursos</a></li>
             <li class="nav-item"><a class="nav-link" href="{{ url_for('contacto') }}">Contacto</a></li>
             <li class="nav-item">
-              <a class="campus-btn" href="{{ url_for('campus') }}">
+              <a class="campus-btn" href="{{ url_for('indexcampus') }}">
                 Campus Virtual
               </a>
             </li>
@@ -44,72 +46,108 @@
     </nav>
 
     <!-- Contenedor principal -->
-    <div class="container my-5">
+    <div class="container my-5 pt-5">
       <div class="row">
         <div class="col-md-8 mx-auto">
           <!-- Info del alumno -->
           <div class="p-3 bg-light rounded shadow-sm mb-4">
             <h4>Datos del Inscripto</h4>
-            <p><strong>Nombre:</strong> <span id="nombre">{{ nombre }}</span></p>
-            <p><strong>Apellido:</strong> <span id="apellido">{{ apellido }}</span></p>
-            <p><strong>Fecha de Nacimiento:</strong> <span id="fecha_nacimiento">{{ fecha_nacimiento }}</span></p>
-            <p><strong>Email:</strong> <span id="email">{{ email }}</span></p>
-            <p><strong>DNI:</strong> <span id="dni">{{ dni }}</span></p>
-            <p><strong>Teléfono:</strong> <span id="telefono">{{ telefono }}</span></p>
+            <p><strong>Nombre:</strong> <span id="nombre"></span></p>
+            <p><strong>Apellido:</strong> <span id="apellido"></span></p>
+            <p><strong>Fecha de Nacimiento:</strong> <span id="fecha_nacimiento"></span></p>
+            <p><strong>Email:</strong> <span id="email"></span></p>
+            <p><strong>DNI:</strong> <span id="dni"></span></p>
+            <p><strong>Teléfono:</strong> <span id="telefono"></span></p>
             <p><strong>Curso:</strong> <span id="curso"></span></p>
-            <p><strong>Precio:</strong> $<span id="precio"></span></p>
+            <p><strong>Precio:</strong> <span id="precio"></span></p>
           </div>
-
+         
           <!-- Formulario de pago -->
           <div class="p-3 bg-light rounded shadow-sm">
             <h4>Formulario de Pago</h4>
             <form id="form-pago" action="{{ url_for('pago') }}" method="post">
               <!-- Hidden inputs para enviar datos al servidor -->
-              <input type="hidden" name="nombre" id="input-nombre" value="{{ nombre }}">
-              <input type="hidden" name="apellido" id="input-apellido" value="{{ apellido }}">
-              <input type="hidden" name="fecha_nacimiento" id="fecha-nacimiento" value="{{ fecha_nacimiento }}">
-              <input type="hidden" name="email" id="input-email" value="{{ email }}">
-              <input type="hidden" name="dni" id="input-dni" value="{{ dni }}">
-              <input type="hidden" name="telefono" id="input-telefono" value="{{ telefono }}">
-              <input type="hidden" name="curso" id="input-curso" value="{{ curso_id }}">
-              <input type="hidden" name="precio" id="input-precio" value="{{ precio_curso }}">
+              <input type="hidden" id="input-nombre" name="nombre">
+              <input type="hidden" id="input-apellido" name="apellido">
+              <input type="hidden" id="fecha-nacimiento" name="fecha_nacimiento">
+              <input type="hidden" id="input-email" name="email">
+              <input type="hidden" id="input-dni" name="dni">
+              <input type="hidden" id="input-telefono" name="telefono">
+              <input type="hidden" id="input-curso" name="curso">
+              <input type="hidden" id="input-precio" name="precio">
 
-              <!-- Método de pago -->
               <div class="mb-3">
-                <label for="metodo-pago" class="form-label">Método de pago</label>
-                <select class="form-select" id="metodo-pago" onchange="mostrarCamposPago()">
-                  <option value="tarjeta">Tarjeta de débito o crédito</option>
-                  <option value="paypal">PayPal</option>
+              <label for="metodo-pago" class="form-label">Método de pago</label>
+              <select class="form-select" id="metodo-pago" onchange="mostrarCamposPago()" required>
+                <option value="" disabled selected>Seleccione un método</option>
+                <option value="debito">Tarjeta de Débito</option>
+                <option value="credito">Tarjeta de Crédito</option>
+                <option value="paypal">PayPal</option>
+              </select>
+              </div>
+
+            <!-- Campos de tarjeta -->
+              <div id="campos-tarjeta" style="display:none;">
+
+              <!-- Nombre del titular -->
+              <div class="mb-3">
+                <label for="nombre-tarjeta" class="form-label">Titular de la tarjeta</label>
+                <input type="text" class="form-control" id="nombre-tarjeta" name="nombre_tarjeta" required>
+                <small class="text-secondary d-block">Nombres y apellidos como figuran en la tarjeta.</small>
+                <div class="text-danger mt-1" id="error-nombre" style="display:none;"></div>
+              </div>
+
+              <!-- Número de tarjeta -->
+              <div class="mb-3">
+                <label for="tarjeta" class="form-label">Número de tarjeta</label>
+                <input type="text" class="form-control" id="tarjeta" name="numero_tarjeta" maxlength="15" required>
+                <small class="text-secondary d-block">Ingresa el número de tarjeta (solo números, 15 dígitos).</small>
+                <div class="text-danger mt-1" id="error-tarjeta" style="display:none;"></div>
+              </div>
+
+              <!-- Fecha de vencimiento -->
+              <div class="mb-3">
+                <label for="vencimiento" class="form-label">Fecha de vencimiento</label>
+                <input type="month" class="form-control" id="vencimiento" name="vencimiento" placeholder="MM/AA" required>
+                <small class="text-secondary d-block">MM/AA</small>
+                <div class="text-danger mt-1" id="error-vencimiento" style="display:none;"></div>
+              </div>
+
+              <!-- CVV -->
+              <div class="mb-3">
+                <label for="cvv" class="form-label">Cód. de seguridad</label>
+                <input type="text" class="form-control" id="cvv" name="cvv" maxlength="3" required>
+                <small class="form-text text-muted">CVV</small>
+                <div class="text-danger mt-1" id="error-cvv" style="display:none;"></div>
+              </div>
+
+              <!-- DNI -->
+              <div class="mb-3">
+                <label for="dni-tarjeta" class="form-label">DNI del titular</label>
+                <input type="text" class="form-control" id="dni-tarjeta" name="dni_tarjeta" maxlength="8" required>
+                <small class="form-text text-muted">DNI del titular de la tarjeta</small>
+                <div class="text-danger mt-1" id="error-dni" style="display:none;"></div>
+              </div>
+
+              <!-- Cuotas (solo tarjeta de crédito) -->
+              <div class="mb-3" id="cuotas-container" style="display:none;">
+                <label for="cuotas" class="form-label">Cuotas</label>
+                <select class="form-select" id="cuotas" name="cuotas">
+                  <option value="1">1 cuota</option>
+                  <option value="2">2 cuotas sin interés</option>
+                  <option value="3">3 cuotas sin interés</option>
                 </select>
               </div>
+             </div>
 
-              <!-- Campos de tarjeta -->
-              <div id="campos-tarjeta" style="display:none;">
-                <div class="mb-3">
-                  <label for="nombre-tarjeta" class="form-label">Nombre en la tarjeta</label>
-                  <input type="text" class="form-control" id="nombre-tarjeta" name="nombre_tarjeta" required>
-                </div>
-                <div class="mb-3">
-                  <label for="tarjeta" class="form-label">Número de tarjeta</label>
-                  <input type="text" class="form-control" id="tarjeta" name="numero_tarjeta" required>
-                </div>
-                <div class="mb-3">
-                  <label for="vencimiento" class="form-label">Fecha de vencimiento</label>
-                  <input type="text" class="form-control" id="vencimiento" name="vencimiento" placeholder="MM/AA" required>
-                </div>
-                <div class="mb-3">
-                  <label for="cvv" class="form-label">CVV</label>
-                  <input type="text" class="form-control" id="cvv" name="cvv" required>
-                </div>
-              </div>
-
-              <!-- Dirección de facturación -->
-              <div class="mb-3">
+            <!-- Dirección de facturación -->
+             <div class="mb-3">
                 <label for="direccion" class="form-label">Dirección de facturación</label>
                 <input type="text" class="form-control" id="direccion" name="direccion" required>
               </div>
 
-              <button type="submit" id="btn-pagar" class="btn btn-success">Pagar</button>
+             <button type="submit" id="btn-pagar" class="btn btn-success">Pagar</button>
+
             </form>
           </div>
         </div>
@@ -168,27 +206,15 @@
   <div id="modal-exito" class="modal-backdrop" style="display:none;">
     <div class="modal-content-custom">
       <h3>¡Pago del curso exitoso!</h3>
-      <p>Bienvenid@ a nuestro Campus! Ya puedes acceder.</p>
+      <p>Bienvenid@  a nuestro Campus! Ya puedes acceder.</p>
       <button id="btn-registrarse" class="btn btn-primary">Acceder al Campus</button>
     </div>
   </div>
 
   <!-- Scripts -->
-  <script>
-    // Mostrar datos del alumno
-    const params = new URLSearchParams(window.location.search);
-    document.getElementById('nombre').textContent = params.get('nombre') || '';
-    document.getElementById('apellido').textContent = params.get('apellido') || '';
-    document.getElementById('fecha_nacimiento').textContent = params.get('fecha_nacimiento') || '';
-    document.getElementById('email').textContent = params.get('email') || '';
-    document.getElementById('dni').textContent = params.get('dni') || '';
-    document.getElementById('telefono').textContent = params.get('telefono') || '';
-    // Mostrar el nombre del curso y precio
-    const cursoId = "{{ curso_id }}";
-    document.getElementById("curso").textContent = nombresCursos[cursoId] || "No especificado";
-    const precioCurso = "{{ precio_curso }}";
-    document.getElementById("precio").textContent = parseInt(precioCurso).toLocaleString();
-    // Constante con los nombres de cursos
+ 
+   <script>
+      /* Constante con los nombres de cursos
     const nombresCursos = {
       "python": "Python",
       "java": "Java",
@@ -210,12 +236,186 @@
       "introduccion-bigdata": "Introducción a Big Data",
       "ia-bigdata": "IA y Big Data",
       "analisis-datos": "Análisis de Datos"
-    };
+    };*/
+   document.addEventListener("DOMContentLoaded", function() {
+    // Obtener parámetros de la URL
+    const params = new URLSearchParams(window.location.search);
+    const nombre = params.get('nombre') || '';
+    const apellido = params.get('apellido') || '';
+    const fecha_nacimiento = params.get('fecha_nacimiento') || '';
+    const email = params.get('email') || '';
+    const dni = params.get('dni') || '';
+    const telefono = params.get('telefono') || '';
+    const curso = params.get('curso') || '';
+    const precio = params.get('precio') || '';
 
-    
+    // Mostrar en la página
+    document.getElementById('nombre').textContent = nombre;
+    document.getElementById('apellido').textContent = apellido;
+    document.getElementById('fecha_nacimiento').textContent = fecha_nacimiento;
+    document.getElementById('email').textContent = email;
+    document.getElementById('dni').textContent = dni;
+    document.getElementById('telefono').textContent = telefono;
+    document.getElementById('curso').textContent = curso;
+    document.getElementById('precio').textContent = precio ? '$' + precio : '';
+
+    // Llenar hidden inputs
+    document.getElementById('input-nombre').value = nombre;
+    document.getElementById('input-apellido').value = apellido;
+    document.getElementById('fecha-nacimiento').value = fecha_nacimiento;
+    document.getElementById('input-email').value = email;
+    document.getElementById('input-dni').value = dni;
+    document.getElementById('input-telefono').value = telefono;
+    document.getElementById('input-curso').value = curso;
+    document.getElementById('input-precio').value = precio;
 
     // Mostrar u ocultar campos de tarjeta
     function mostrarCamposPago() {
+        const metodo = document.getElementById('metodo-pago').value;
+        const camposTarjeta = document.getElementById('campos-tarjeta');
+        const cuotas = document.getElementById('cuotas-container');
+        const btnPagar = document.getElementById('btn-pagar');
+
+        if(metodo === 'debito' || metodo === 'credito') {
+            camposTarjeta.style.display = 'block';
+            cuotas.style.display = metodo === 'credito' ? 'block' : 'none';
+            btnPagar.style.display = 'inline-block';
+            document.querySelectorAll('#campos-tarjeta input').forEach(i => i.required = true);
+        } else if(metodo === 'paypal') {
+            camposTarjeta.style.display = 'none';
+            cuotas.style.display = 'none';
+            document.querySelectorAll('#campos-tarjeta input').forEach(i => i.required = false);
+            btnPagar.style.display = 'none';
+            const paypalLoginModal = new bootstrap.Modal(document.getElementById('paypalLoginModal'));
+            paypalLoginModal.show();
+        }
+    }
+
+    document.getElementById('metodo-pago').addEventListener('change', mostrarCamposPago);
+
+    // Si quieres iniciar con tarjeta seleccionada
+    //document.getElementById('metodo-pago').value = 'debito';
+    mostrarCamposPago();
+});
+
+
+    // Mostrar el nombre del curso y precio
+    //const cursoId = "{{ curso_id }}";
+   //document.getElementById("curso").textContent = nombresCursos[cursoId] || "No especificado";
+    //const precioCurso = "{{ precio_curso }}";
+    //document.getElementById("precio").textContent = parseInt(precioCurso).toLocaleString();
+
+    // Mostrar u ocultar campos de tarjeta
+    /*function mostrarCamposPago() {
+      const metodo = document.getElementById('metodo-pago').value;
+      const camposTarjeta = document.getElementById('campos-tarjeta');
+      const cuotas = document.getElementById('cuotas-container');
+      const btnPagar = document.getElementById('btn-pagar');
+
+      if (metodo === "debito" || metodo === "credito") {
+          camposTarjeta.style.display = "block";
+          btnPagar.style.display = "inline-block";
+
+          cuotas.style.display = metodo === "credito" ? "block" : "none";
+          document.querySelectorAll('#campos-tarjeta input').forEach(i => i.required = true);
+
+      } else if (metodo === "paypal") {
+          camposTarjeta.style.display = "none";
+          cuotas.style.display = "none";
+          document.querySelectorAll('#campos-tarjeta input').forEach(i => i.required = false);
+          btnPagar.style.display = "none";
+          const paypalLoginModal = new bootstrap.Modal(document.getElementById('paypalLoginModal'));
+          paypalLoginModal.show();
+      }
+    }*/
+
+    // Validaciones al enviar el formulario
+    
+    document.getElementById('btn-pagar').addEventListener('click', function(e) {
+      e.preventDefault();
+      let valido = true;
+
+      // Nombre titular
+      const nombre = document.getElementById('nombre-tarjeta');
+      const errorNombre = document.getElementById('error-nombre');
+      if(!/^[A-Za-z\s]+$/.test(nombre.value)) {
+        errorNombre.textContent = "Solo se permiten letras y espacios";
+        errorNombre.style.display = "block";
+        nombre.classList.add('is-invalid');
+        valido = false;
+      } else {
+        errorNombre.style.display = "none";
+        nombre.classList.remove('is-invalid');
+      }
+
+      // Número de tarjeta
+      const tarjeta = document.getElementById('tarjeta');
+      const errorTarjeta = document.getElementById('error-tarjeta');
+      if(!/^\d{15}$/.test(tarjeta.value)) {
+        errorTarjeta.textContent = "Debe tener 15 dígitos";
+        errorTarjeta.style.display = "block";
+        tarjeta.classList.add('is-invalid');
+        valido = false;
+      } else {
+        errorTarjeta.style.display = "none";
+        tarjeta.classList.remove('is-invalid');
+      }
+
+      const vencimiento = document.getElementById('vencimiento');
+      const errorVencimiento = document.getElementById('error-vencimiento');
+
+      const fechaSeleccionada = new Date(vencimiento.value + '-01'); // Convertir a Date
+      const ahora = new Date();
+      ahora.setDate(1); // Solo mes y año
+
+      if(fechaSeleccionada < ahora) {
+          errorVencimiento.textContent = "Fecha inválida o vencida";
+          errorVencimiento.style.display = "block";
+          vencimiento.classList.add('is-invalid');
+      } else {
+          errorVencimiento.style.display = "none";
+          vencimiento.classList.remove('is-invalid');
+      }
+
+
+      // CVV
+      const cvv = document.getElementById('cvv');
+      const errorCvv = document.getElementById('error-cvv');
+      if(!/^\d{3}$/.test(cvv.value)) {
+        errorCvv.textContent = "Debe tener 3 dígitos";
+        errorCvv.style.display = "block";
+        cvv.classList.add('is-invalid');
+        valido = false;
+      } else {
+        errorCvv.style.display = "none";
+        cvv.classList.remove('is-invalid');
+      }
+
+      // DNI
+      const dni = document.getElementById('dni-tarjeta');
+      const errorDni = document.getElementById('error-dni');
+      if(!/^\d{8}$/.test(dni.value)) {
+        errorDni.textContent = "Debe tener 8 dígitos";
+        errorDni.style.display = "block";
+        dni.classList.add('is-invalid');
+        valido = false;
+      } else {
+        errorDni.style.display = "none";
+        dni.classList.remove('is-invalid');
+      }
+
+      if(valido) {
+       // alert("Formulario válido, listo para procesar el pago");
+        document.getElementById('modal-exito').style.display = 'flex';
+
+    // Botón para ir al campus
+        document.getElementById('btn-registrarse').onclick = function() {
+        window.location.href = "{{ url_for('inicio_campus') }}";
+        }
+      }
+    });
+
+    /*function mostrarCamposPago() {
       const metodo = document.getElementById('metodo-pago').value;
       const camposTarjeta = document.getElementById('campos-tarjeta');
       const botonPagar = document.getElementById('btn-pagar');
@@ -249,21 +449,21 @@
           };
         };
       }
-    }
+    }*/
 
     // Pago con tarjeta
     document.getElementById('form-pago').addEventListener('submit', function(e) {
       e.preventDefault();
       document.getElementById('modal-exito').style.display = 'flex';
       document.getElementById('btn-registrarse').onclick = function() {
-        window.location.href = "{{ url_for('campus') }}";
+        window.location.href = "{{ url_for('inicio_campus') }}";
       };
     });
 
     // Al cargar la página, asegurar consistencia visual
     window.onload = function() {
       const metodoSelect = document.getElementById('metodo-pago');
-      metodoSelect.value = 'tarjeta'; // Valor inicial (tarjeta)
+      //metodoSelect.value = 'tarjeta'; // Valor inicial (tarjeta)
       mostrarCamposPago();
     };
   </script>
@@ -276,7 +476,7 @@
       <!-- Logo y Redes Sociales -->
       <div class="row align-items-center mb-4">
         <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
-          <img src="{{ url_for('static', filename='img/EducacioIT.jpg') }}" alt="EducaciónIT" style="height: 60px;">
+          <img src="{{ url_for('static', filename='Imágenes/EducacioIT.jpg') }}" alt="EducaciónIT" style="height: 60px;">
         </div>
         <div class="col-md-6 text-center text-md-end">
           <a href="https://www.instagram.com/" target="_blank" class="text-dark me-3" style="text-decoration: none;">

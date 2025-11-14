@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campus Virtual - Análisis de Datos</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='campusAnalisisDeDatos.css') }}">
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <span class="navbar-text">Bienvenido al Campus EducaciónIT</span>
+        <div class="dropdown">
+            <a class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" href="#"
+                id="dropdownUser" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="bi bi-person-circle user-icon"></i>
+                <span class="ms-2">Usuario</span>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownUser">
+      <li><a class="dropdown-item" href="{{ url_for('mis_cursos') }}"><i class="bi bi-journal-text me-2"></i>Mis cursos</a></li>
+      <li><a class="dropdown-item" href="{{ url_for('index_AnalisisDeDatos) }}"><i class="bi bi-box-arrow-right me-2"></i>Salir</a></li>
+    </ul>
+        </div>
+    </nav>
+
+    <div class="campus-container">
+        <aside class="sidebar">
+            <h4>Análisis de Datos</h4>
+            <ul class="list-group" id="lista-modulos"></ul>
+        </aside>
+
+        <main class="content d-flex flex-column justify-content-center align-items-center text-center">
+            <div id="pantalla-inicial">
+                <h2>Bienvenid@ al Curso de Análisis de Datos</h2>
+                <p class="mt-3">
+                    Este curso está diseñado para que desarrolles las habilidades necesarias para gestionar, construir y
+                    moderar comunidades en torno a una marca en el entorno digital.
+                    Contamos con <strong>4 módulos</strong> que incluyen:
+                </p>
+                <ul class="text-start mx-auto" style="max-width:500px;">
+                    <li>Introducción al Análisis de Datos </li>
+                    <li>Limpieza y Preparación de Datos </li>
+                    <li>Estadística Descriptiva y Visualización de Datos </li>
+                    <li>Big Data y Herramientas Avanzadas </li>
+                </ul>
+                <p class="mt-3">
+                    Ante cualquier duda, podés escribir al correo del profesora <strong>Laura Martinez</strong>:
+                    <a href="laura.martinez@educacionit.com">laura.martinez@educacionit.com</a>
+                </p>
+                <button id="btn-comenzar" class="btn btn-primary mt-3">Comenzar</button>
+            </div>
+
+            <div id="contenido-curso" style="display:none; width:100%;">
+                <h2 id="titulo-leccion"></h2>
+                <div id="contenido-leccion"></div>
+                <div class="d-flex justify-content-end">
+                    <button id="btn-siguiente" class="btn btn-primary mt-3" onclick="siguienteTema()"
+                        disabled>Siguiente</button>
+                </div>
+            </div>
+
+            <button id="btn-evaluacion" class="btn btn-warning mt-3" onclick="window.location.href='prueba.html'"
+                style="display:none;">
+                Realizar Evaluación Final
+            </button>
+        </main>
+    </div>
+
+    <script>
+        const curso = [
+            {
+                titulo: "Módulo 1: Introducción",
+                temas: [
+                    {
+                        titulo: "Introducción al Análisis de Datos (Introducción)",
+                        contenido: `
+            <div class="tema-contenido">
+            <div class="video-container">
+                <iframe src="https://www.youtube.com/embed/PVVIG4TDYls?si=QgRRaUpRNk-P0Z2A" title="big1" allowfullscreen></iframe>
+            </div>
+            <div class="descripcion-container text-center" style="max-width: 800px; margin: 0 auto;">
+                <h3>Introducción al Análisis de Datos</h3>
+                <p>
+                Módulo 1: Introducción al Análisis de Datos (Introducción)
+                Descripción:
+                Fundamentos	Definición, ciclo de vida del análisis de datos (obtención, limpieza, análisis, visualización, interpretación), tipos de datos (cualitativos, cuantitativos), población y muestra.
+                <a href="mailto:laura.martinez@educacionit.com" style="text-decoration: none; color: #0d6efd; display: inline-flex; align-items: center; gap: 5px;">
+                    <i class="bi bi-envelope-fill"></i> laura.martinez@educacionit.com
+                </a>
+                </p>
+            </div>
+            </div>`
+                    },
+                ]
+            },
+            {
+                titulo: "Módulo 2: Limpieza y Preparación de Datos",
+                temas: [
+
+                    {
+                        titulo: "Módulo 2: Limpieza y Preparación de Datos",
+                        contenido: `
+        <div class="tema-contenido">
+          <div class="video-container">
+            <iframe src="https://www.youtube.com/embed/VNnIvfMClb0?si=LcCsO56jct1DlZgj" title="big2" allowfullscreen></iframe>
+          </div>
+          <div class="descripcion-container">
+            <h3>¿Qué aprenderás?</h3>
+            <p>Calidad de Datos	Manejo de valores faltantes (imputación, eliminación), detección y tratamiento de datos atípicos (outliers), estandarización y normalización de datos, eliminación de duplicados, corrección de inconsistencias de formato (fechas, texto).</p>
+          </div>
+        </div>`
+                    },
+                    {
+                        titulo: "Estadística Descriptiva y Visualización de Datos",
+                        contenido: `
+        <div class="tema-contenido">
+          <div class="video-container">
+            <iframe src="https://www.youtube.com/embed/hlWTBuiXucE?si=EeBlAsjRI3aBYtB1"  title="big3" allowfullscreen></iframe>
+          </div>
+          <div class="descripcion-container">
+            <h3>¿Qué aprenderás?</h3>
+            <p> Medidas de tendencia central (media, mediana, moda), medidas de dispersión (varianza, desviación estándar, rango), distribución de frecuencias, percentiles y cuartiles. Visualización: Tipos de gráficos (histogramas, diagramas de caja, gráficos de dispersión, barras), principios de la Data Storytelling. </p>
+          </div>
+        </div>`
+                    }
+                ]
+            },
+            {
+                titulo: "Módulo 3: Deep Learning (Aprendizaje Profundo) y Análisis Avanzado",
+                temas: [
+                    {
+                        titulo: "Deep Learning (Aprendizaje Profundo) y Análisis Avanzado",
+                        contenido: `
+        <div class="tema-contenido">
+          <div class="video-container">
+            <iframe src="https://www.youtube.com/embed/WowszMqn4bY?si=jUSNSp6A7-AR9FU4" title="big4" allowfullscreen></iframe>
+          </div>
+          <div class="descripcion-container">
+            <h3>¿Qué aprenderás?</h3>
+            <p> Redes Neuronales:Estructura básica de una neurona y una Red Neuronal Artificial (RNA). Capas y Función de Activación.
+            Deep Learning Avanzado:Introducción a Redes Neuronales Convolucionales (CNN) para Visión por Computadora y Redes Neuronales Recurrentes (RNN) para Secuencias y Lenguaje Natural (NLP).
+            Big Data para Deep Learning:El rol del Big Data como "combustible" para entrenar modelos profundos. Desafíos de escalabilidad.</p>
+          </div>
+        </div>`
+                    }
+                ]
+            },
+            {
+                titulo: "Módulo 4: Big Data y Herramientas Avanzada",
+                temas: [
+                    {
+                        titulo: "Big Data y Herramientas Avanzada",
+                        contenido: `
+        <div class="tema-contenido">
+          <div class="video-container">
+            <iframe src="https://www.youtube.com/embed/WAalAbQprnw?si=yJzBYBcKVhkLH9bL" title="big5" allowfullscreen></iframe>
+          </div>
+          <div class="descripcion-container">
+            <h3>¿Qué aprenderás?</h3>
+            <p> Concepto de Big Data (las 5 V: Volumen, Velocidad, Variedad, Veracidad, Valor), Introducción a bases de datos NoSQL, herramientas clave (Hadoop, Spark), Cloud Computing para el análisis de datos (AWS, Azure, GCP). </p>
+          </div>
+        </div>`
+                    }
+                ]
+            }
+        ];
+
+
+
+// === VARIABLES GLOBALES ===
+let moduloActual = 0;
+let temaActual = 0;
+
+const listaModulos = document.getElementById('lista-modulos');
+const tituloLeccion = document.getElementById('titulo-leccion');
+const contenidoLeccion = document.getElementById('contenido-leccion');
+const btnSiguiente = document.getElementById('btn-siguiente');
+const btnComenzar = document.getElementById('btn-comenzar');
+const btnEvaluacion = document.getElementById('btn-evaluacion');
+
+// Inicialmente ocultamos el botón de evaluación
+if (btnEvaluacion) btnEvaluacion.style.display = 'none';
+
+const localStorageKey = "progresoAnalisisDatos";
+
+// === GUARDAR Y CARGAR PROGRESO LOCAL ===
+function guardarProgreso() {
+  const progreso = {
+    moduloActual,
+    temaActual,
+    curso: curso.map(mod => ({
+      habilitado: mod.habilitado,
+      temas: mod.temas.map(t => ({
+        hecho: t.hecho,
+        habilitado: t.habilitado
+      }))
+    })),
+    cursoCompletado: localStorage.getItem("cursoAnalisisCompletado") === "true"
+  };
+  localStorage.setItem(localStorageKey, JSON.stringify(progreso));
+}
+
+function cargarProgresoLocal() {
+  const data = localStorage.getItem(localStorageKey);
+  if (!data) return false;
+  const progreso = JSON.parse(data);
+
+  progreso.curso.forEach((mod, i) => {
+    curso[i].habilitado = mod.habilitado;
+    mod.temas.forEach((t, j) => {
+      curso[i].temas[j].hecho = t.hecho;
+      curso[i].temas[j].habilitado = t.habilitado;
+    });
+  });
+
+  moduloActual = progreso.moduloActual;
+  temaActual = progreso.temaActual;
+
+  return true;
+}
+
+// === INICIALIZAR CURSO ===
+curso.forEach(m => {
+  m.habilitado = false;
+  m.temas.forEach(t => {
+    t.hecho = false;
+    t.habilitado = false;
+  });
+});
+
+// === CARGAR MÓDULOS EN SIDEBAR ===
+function cargarModulos() {
+  listaModulos.innerHTML = "";
+  curso.forEach((modulo, i) => {
+    const li = document.createElement('li');
+    li.classList.add('list-group-item');
+    if (!modulo.habilitado) li.classList.add('deshabilitado');
+
+    const todosHechos = modulo.temas.every(t => t.hecho);
+    const iconoCheck = todosHechos ? `<i class="bi bi-check2 modulo-completo"></i>` : "";
+
+    li.innerHTML = `
+      <a class="modulo-link" data-bs-toggle="collapse" href="#modulo${i}" role="button">
+        ${modulo.titulo} ${iconoCheck} <i class="bi bi-chevron-down"></i>
+      </a>
+      <ul class="list-group collapse" id="modulo${i}"></ul>
+    `;
+    listaModulos.appendChild(li);
+
+    const ulTemas = li.querySelector('ul');
+    modulo.temas.forEach((tema, j) => {
+      const temaLi = document.createElement('li');
+      temaLi.classList.add('list-group-item', 'tema-item');
+      temaLi.textContent = tema.titulo;
+
+      if (tema.habilitado) {
+        temaLi.style.cursor = 'pointer';
+        temaLi.style.opacity = '1';
+        temaLi.onclick = () => mostrarTema(i, j);
+      } else {
+        temaLi.style.cursor = 'not-allowed';
+        temaLi.style.opacity = '0.5';
+      }
+
+      ulTemas.appendChild(temaLi);
+    });
+  });
+}
+
+// === MOSTRAR TEMA ===
+function mostrarTema(m, t) {
+  if (!curso[m].habilitado || !curso[m].temas[t].habilitado) {
+    alert("Debes completar los temas anteriores primero.");
+    return;
+  }
+
+  moduloActual = m;
+  temaActual = t;
+  const tema = curso[m].temas[t];
+  tituloLeccion.textContent = tema.titulo;
+  contenidoLeccion.innerHTML = tema.contenido;
+
+  let botonesHTML = `<button class="btn btn-success" id="btn-hecho">Marcar como hecho</button>`;
+  if (m === 1 && t === 1) {
+    botonesHTML += `<button class="btn btn-primary" id="btn-pdf" onclick="window.open('Materiales/Actividad_analisis.pdf', '_blank')">Ver PDF de práctica</button>`;
+  }
+
+  const contenedorBotones = document.createElement('div');
+  contenedorBotones.id = 'botones-leccion';
+  contenedorBotones.className = 'd-flex gap-2 mt-3 justify-content-end';
+  contenedorBotones.innerHTML = botonesHTML;
+  contenidoLeccion.appendChild(contenedorBotones);
+
+  btnSiguiente.disabled = true;
+  btnSiguiente.style.display = (m === curso.length - 1 && t === curso[m].temas.length - 1)
+    ? 'none' : 'inline-block';
+
+  document.getElementById('btn-hecho').onclick = () => marcarComoHecho(m, t);
+
+  // Mostrar botón evaluación si es el último tema del último módulo
+  if (m === curso.length - 1 && t === curso[m].temas.length - 1 && localStorage.getItem("cursoAnalisisCompletado") !== "true") {
+    btnEvaluacion.style.display = 'block';
+  } else {
+    btnEvaluacion.style.display = 'none';
+  }
+
+  guardarProgreso();
+}
+
+// === MARCAR TEMA COMO HECHO ===
+function marcarComoHecho(m, t) {
+  curso[m].temas[t].hecho = true;
+  btnSiguiente.disabled = false;
+
+  if (t + 1 < curso[m].temas.length) {
+    curso[m].temas[t + 1].habilitado = true;
+  } else if (m + 1 < curso.length) {
+    curso[m + 1].habilitado = true;
+    curso[m + 1].temas[0].habilitado = true;
+  }
+
+  guardarProgreso();
+  cargarModulos();
+}
+
+// === APROBAR CURSO ===
+function aprobarCurso() {
+  localStorage.setItem("cursoAnalisisCompletado", "true");
+  guardarProgreso();
+  mostrarCursoCompletadoGlobal();
+}
+
+// === CURSO COMPLETADO ===
+function mostrarCursoCompletadoGlobal() {
+  btnEvaluacion.style.display = 'none';
+
+  curso.forEach(mod => {
+    mod.habilitado = true;
+    mod.temas.forEach(t => t.hecho = true);
+  });
+
+  cargarModulos();
+
+  contenidoLeccion.innerHTML = "";
+  const mensaje = document.createElement('div');
+  mensaje.className = 'alert alert-success mt-4 text-center fw-bold';
+  mensaje.textContent = '🎉 ¡Felicidades! Has completado el curso de Análisis de Datos exitosamente.';
+  contenidoLeccion.appendChild(mensaje);
+}
+
+// === SIGUIENTE TEMA ===
+function siguienteTema() {
+  if (temaActual < curso[moduloActual].temas.length - 1) {
+    mostrarTema(moduloActual, temaActual + 1);
+  } else if (moduloActual < curso.length - 1) {
+    mostrarTema(moduloActual + 1, 0);
+  } else {
+    btnSiguiente.disabled = true;
+  }
+  guardarProgreso();
+}
+
+// === COMENZAR CURSO ===
+btnComenzar.onclick = () => {
+  document.getElementById('pantalla-inicial').style.display = 'none';
+  document.getElementById('contenido-curso').style.display = 'block';
+  curso[0].habilitado = true;
+  curso[0].temas[0].habilitado = true;
+  cargarModulos();
+  mostrarTema(0, 0);
+};
+
+// === AL CARGAR LA PÁGINA ===
+document.addEventListener("DOMContentLoaded", () => {
+  cargarProgresoLocal();
+
+  if (localStorage.getItem("cursoAnalisisCompletado") === "true") {
+    mostrarCursoCompletadoGlobal();
+  } else {
+    const tieneProgreso = cargarProgresoLocal();
+    if (tieneProgreso) {
+      document.getElementById('pantalla-inicial').style.display = 'none';
+      document.getElementById('contenido-curso').style.display = 'block';
+      cargarModulos();
+      mostrarTema(moduloActual, temaActual);
+    } else {
+      cargarModulos();
+    }
+  }
+});
+</script>
+
+ <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

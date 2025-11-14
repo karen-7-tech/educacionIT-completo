@@ -19,8 +19,8 @@ body {
   padding: 30px;
   border-radius: 10px;
   box-shadow: 0px 4px 12px rgba(0,0,0,0.1);
-  max-width: 700px;
-  margin: auto;
+  /*x-width: 700px;
+  margin: auto;*/
 }
 
 .detalle-curso h1 {
@@ -31,7 +31,8 @@ body {
 
 .detalle-curso img {
   display: block;
-  margin: 0 auto 20px auto;
+   margin-bottom: 20px;
+   /* margin: 0 auto 20px auto;*/
   max-width: 100%;
   border-radius: 8px;
   box-shadow: 0px 2px 8px rgba(0,0,0,0.1);
@@ -80,16 +81,16 @@ body {
   text-align: center;
 }
 
-
+/*
 .detalle-curso {
-  font-size: 0.9rem; /* más compacto */
+  font-size: 0.9rem; 
 }
 
 .detalle-curso img {
-  max-width: 80%; /* imagen más pequeña */
+  max-width: 80%; 
   display: block;
   margin: 0 auto 15px auto;
-}
+}*/
 
 .info-izquierda {
   font-size: 0.9rem;
@@ -138,4 +139,38 @@ body {
     color: red;       /* hace que el texto sea rojo */
     font-weight: bold; /* opcional: para que destaque más */
     font-size: 1.1em;  /* opcional: un poco más grande */
+}
+
+.row.align-items-stretch {
+  align-items: stretch;
+}
+
+/* Asegura que las cajas llenen el alto de su columna */
+.formulario,
+.info-curso,
+.detalle-curso {
+  height: 100%;
+}
+
+/* Mejora visual */
+.formulario,
+.info-curso,
+.detalle-curso {
+  box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+  border-radius: 10px;
+}
+
+/* Espaciado entre bloques derechos */
+.info-curso {
+  margin-bottom: 20px;
+}
+
+/* Responsive: apila todo en una sola columna en móviles */
+@media (max-width: 767px) {
+  .formulario,
+  .info-curso,
+  .detalle-curso {
+    height: auto;
+    margin-bottom: 20px;
+  }
 }
